@@ -1,92 +1,136 @@
-import React from "react";
-import { Github, Linkedin, Mail, Download } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Github, Linkedin, Twitter, Mail, ChevronDown } from "lucide-react";
+
+const socialLinks = [
+  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Mail, href: "mailto:ranjit@example.com", label: "Email" },
+];
 
 const Hero = () => {
-  // const scrollToSection = (href) => {
-  //   const element = document.querySelector(href);
-  //   if (element) {
-  //     element.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
+  const [isVisible, setIsVisible] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  const fullText = "Full Stack Developer";
+
+  useEffect(() => {
+    setIsVisible(true);
+
+    let index = 0;
+    const typingInterval = setInterval(() => {
+      if (index <= fullText.length) {
+        setTypedText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 100);
+
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center justify-center bg-white z-10 overflow-auto"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white"
     >
-      <div className="w-full max-w-3xl px-6 text-center animate-fade-in-up">
-        {/* Heading */}
-        <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl">
-          Hi, I’m <span className="gradient-text">Ranjit Rajbanshi</span>
-        </h1>
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 -left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
 
-        {/* Image */}
-        <div className="mb-6 flex justify-center">
-          <img
-            src="/image/1.png"
-            alt="Ranjit Rajbanshi"
-            className="h-72 w-72 rounded-full object-cover border-4 border-primary/30 shadow-xl"
-          />
-        </div>
-
-        {/* Subtitle */}
-        <p className="mb-4 text-xl text-muted-foreground">
-          Full Stack Developer
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl px-6 text-center">
+        <p
+          className={`text-primary font-mono text-sm mb-4 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          Hello, my name is
         </p>
 
-        {/* Description */}
-        <p className="mb-8 mx-auto max-w-xl text-lg text-muted-foreground">
+        <h1
+          className={`text-5xl md:text-7xl font-bold mb-4 transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          Ranjit <span className="text-primary">Rajbanshi</span>
+        </h1>
+
+        <h2
+          className={`text-3xl md:text-5xl font-bold text-muted-foreground mb-6 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          {typedText}
+          <span className="text-primary animate-pulse">|</span>
+        </h2>
+
+        <p
+          className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           I build modern, high-performance web applications with clean code,
-          great user experience, and scalable architecture.
+          scalable architecture, and great user experience.
         </p>
 
         {/* Buttons */}
-        <div className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <div
+          className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 transition-all duration-700 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           <button
-            onClick={() => scrollToSection("#projects")}
-            className="hero-gradient glow-effect inline-flex items-center justify-center rounded-lg px-6 py-3 text-white transition-transform duration-200 hover:scale-105"
+            onClick={() => scrollToSection("projects")}
+            className="px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition hover:-translate-y-1"
           >
-            View My Work
+            View My Work →
           </button>
 
-          <a
-            href="/cv.pdf"
-            download
-            className="inline-flex items-center justify-center rounded-lg border border-primary px-6 py-3 text-primary transition-all duration-200 hover:bg-primary hover:text-white"
+          <button
+            onClick={() => scrollToSection("contact")}
+            className="px-8 py-4 border border-primary text-primary rounded-lg hover:bg-primary/10 transition hover:-translate-y-1"
           >
-            <Download className="mr-2 h-5 w-5" />
-            Download CV
-          </a>
+            Get In Touch
+          </button>
         </div>
 
         {/* Social Icons */}
-        <div className="flex justify-center gap-6">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground transition hover:scale-110 hover:text-primary"
-          >
-            <Github className="h-6 w-6" />
-          </a>
-
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground transition hover:scale-110 hover:text-primary"
-          >
-            <Linkedin className="h-6 w-6" />
-          </a>
-
-          <button
-            onClick={() => scrollToSection("#contact")}
-            className="text-muted-foreground transition hover:scale-110 hover:text-primary"
-          >
-            <Mail className="h-6 w-6" />
-          </button>
+        <div
+          className={`flex justify-center gap-6 transition-all duration-700 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          {socialLinks.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition hover:-translate-y-1"
+            >
+              <social.icon className="w-6 h-6" />
+            </a>
+          ))}
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <button
+        onClick={() => scrollToSection("about")}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary animate-bounce"
+      >
+        <ChevronDown className="w-8 h-8" />
+      </button>
     </section>
   );
 };

@@ -1,129 +1,136 @@
-import React from "react";
-import { Code, Palette, Zap, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const About = () => {
-  const features = [
-    {
-      icon: Code,
-      title: "Clean Code",
-      description:
-        "Maintainable, scalable, and efficient code following best practices.",
-    },
-    {
-      icon: Palette,
-      title: "Modern Design",
-      description:
-        "Beautiful, user-friendly interfaces with strong visual hierarchy.",
-    },
-    {
-      icon: Zap,
-      title: "Fast Performance",
-      description:
-        "Optimized apps focused on speed and smooth user experience.",
-    },
-    {
-      icon: Users,
-      title: "Team Player",
-      description: "Clear communication and strong collaboration mindset.",
-    },
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const technologies = [
+    "JavaScript (ES6+)",
+    "React",
+    "Node.js",
+    "Tailwind CSS",
+    "REST APIs",
+    "Git & GitHub",
   ];
 
   return (
-    <section
-      id="about"
-      className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
-    >
-      {/* Background Effects */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-transparent to-purple-500/10" />
-      <div className="absolute top-1/4 left-1/3 h-72 w-72 bg-primary/20 rounded-full blur-3xl -z-10" />
-
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            About{" "}
-            <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
-              Me
-            </span>
+    <section ref={sectionRef} id="about" className="bg-white py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        {/* Section Header */}
+        <div
+          className={`mb-12 flex items-center gap-4 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <span className="font-mono text-sm text-primary">01.</span>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            About Me
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            I build modern, high-quality digital experiences that are fast,
-            intuitive, and visually engaging.
-          </p>
+          <div className="h-px flex-1 max-w-xs bg-gray-200" />
         </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Text */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold">My Journey</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              I’m a passionate web developer with 3+ years of experience
-              building everything from elegant landing pages to scalable web
-              applications. What started as curiosity quickly turned into a deep
-              love for crafting meaningful digital products.
+        <div className="grid gap-12 md:grid-cols-5">
+          {/* Text Content */}
+          <div className="md:col-span-3 space-y-4">
+            <p
+              className={`text-gray-600 transition-all duration-700 delay-100 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              Hello! I’m{" "}
+              <span className="text-primary font-medium">Ranjit Rajbanshi</span>
+              , a passionate web developer who loves building clean, modern, and
+              scalable web applications.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              I focus on modern JavaScript frameworks, responsive design, and
-              performance-driven development. I enjoy learning new technologies
-              and solving real-world problems with clean solutions.
+
+            <p
+              className={`text-gray-600 transition-all duration-700 delay-200 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              I enjoy turning complex problems into simple, beautiful interfaces
+              and continuously learning new technologies to improve my craft.
+            </p>
+
+            <p
+              className={`text-gray-600 transition-all duration-700 delay-300 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              Here are a few technologies I’ve been working with recently:
             </p>
 
             {/* Tech Stack */}
-            <div className="flex flex-wrap gap-3 pt-2">
-              {[
-                "React",
-                "JavaScript",
-                "TypeScript",
-                "Node.js",
-                "Python",
-                "MongoDB",
-              ].map((tech) => (
-                <span
+            <ul
+              className={`grid grid-cols-2 gap-2 pt-4 transition-all duration-700 delay-400 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
+              {technologies.map((tech) => (
+                <li
                   key={tech}
-                  className="px-4 py-1.5 rounded-full text-sm font-medium
-                      bg-primary/10 text-primary
-                      hover:bg-primary hover:text-white
-                      transition-all duration-300 cursor-default"
+                  className="flex items-center gap-2 text-sm text-gray-600 group"
                 >
-                  {tech}
-                </span>
+                  <span className="text-primary group-hover:translate-x-1 transition-transform">
+                    ▹
+                  </span>
+                  <span className="group-hover:text-primary transition-colors">
+                    {tech}
+                  </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Profile Image (Optional) */}
-          {/* <div className="flex justify-center">
-            <div className="relative group">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-purple-500 blur-lg opacity-40 group-hover:opacity-70 transition" />
-              <img
-                src="#"
-                alt="Profile"
-                className="relative w-72 h-72 object-cover rounded-full border-4 border-background
-                  shadow-xl group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          </div> */}
-        </div>
+          {/* Image */}
+          <div
+            className={`md:col-span-2 transition-all duration-700 delay-300 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div className="relative group max-w-xs mx-auto">
+              {/* Image Box */}
+              <div className="relative z-10 overflow-hidden rounded-lg">
+                <img
+                  src="/image/1.png"
+                  alt="Ranjit Rajbanshi"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition" />
+              </div>
 
-        {/* Feature Cards */}
-        {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="group bg-background/70 backdrop-blur border
-                hover:-translate-y-2 hover:shadow-2xl transition-all duration-300"
-            >
-              <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                <feature.icon className="h-9 w-9 text-primary group-hover:scale-110 transition" />
-                <h4 className="text-xl font-semibold">{feature.title}</h4>
-                <p className="text-muted-foreground text-sm">
-                  {feature.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div> */}
+              {/* Border */}
+              <div className="absolute top-4 left-4 w-full h-full border-2 border-primary rounded-lg transition-all duration-300 group-hover:top-2 group-hover:left-2" />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
