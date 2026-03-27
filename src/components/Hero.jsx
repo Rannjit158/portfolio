@@ -1,138 +1,159 @@
-import { useEffect, useState } from "react";
-import { Github, Linkedin, Twitter, Mail, ChevronDown } from "lucide-react";
+import { useEffect, useRef } from "react";
+import {
+  personalInfo,
+  stats,
+  heroBadges,
+  heroFloatCards,
+  typedPhrases,
+} from "../data/portfolioData";
 
-const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Mail, href: "mailto:ranjit@example.com", label: "Email" },
-];
-
-const Hero = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const fullText = "Full Stack Developer";
+export default function Hero() {
+  const typedRef = useRef(null);
 
   useEffect(() => {
-    setIsVisible(true);
+    const phrases = typedPhrases;
+    let pi = 0,
+      ci = 0,
+      deleting = false;
+    let timer;
 
-    let index = 0;
-    const typingInterval = setInterval(() => {
-      if (index <= fullText.length) {
-        setTypedText(fullText.slice(0, index));
-        index++;
+    function type() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        if (typedRef.current)
+          typedRef.current.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) {
+          deleting = true;
+          timer = setTimeout(type, 1800);
+          return;
+        }
       } else {
-        clearInterval(typingInterval);
+        if (typedRef.current)
+          typedRef.current.textContent = phrase.slice(0, --ci);
+        if (ci === 0) {
+          deleting = false;
+          pi = (pi + 1) % phrases.length;
+        }
       }
-    }, 100);
-
-    return () => clearInterval(typingInterval);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      timer = setTimeout(type, deleting ? 60 : 90);
     }
-  };
+
+    timer = setTimeout(type, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white"
+      className="min-h-screen flex items-center pt-28 pb-20 relative overflow-hidden"
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 -left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      <div className="container mx-auto relative z-10 px-6">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          {/* LEFT */}
+          <div>
+            {/* Status */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-2 h-2 rounded-full bg-[var(--accent)] shadow-[0_0_12px_var(--accent)] animate-pulse"></div>
+              <span className="text-xs text-[var(--muted)] tracking-wider font-mono">
+                {personalInfo.tagline}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1 className="font-extrabold leading-tight text-[clamp(48px,6vw,82px)] mb-6">
+              <span>Full-Stack</span> <br />
+              <span ref={typedRef} className="text-[var(--accent)]">
+                Laravel
+              </span>{" "}
+              <br />
+              <span className="text-transparent stroke-text">Developer</span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-[var(--muted)] text-lg leading-relaxed max-w-md mb-10">
+              {personalInfo.description}
+            </p>
+
+            {/* Buttons */}
+            <div className="flex flex-wrap gap-4 mb-12">
+              <a href="#projects" className="btn-primary">
+                View My Work
+              </a>
+              <a href="#contact" className="btn-secondary">
+                Get In Touch
+              </a>
+            </div>
+
+            {/* Stats */}
+            {/* <div className="flex gap-10">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <div className="text-3xl font-extrabold tracking-tight">
+                    {s.num}
+                    <span className="text-[var(--accent)]">{s.suffix}</span>
+                  </div>
+                  <div className="text-xs text-[var(--muted)]">{s.label}</div>
+                </div>
+              ))}
+            </div> */}
+          </div>
+
+          {/* RIGHT */}
+          <div className="relative flex justify-center">
+            <div className="relative w-[360px] h-[440px]">
+              {/* MAIN CARD */}
+              <div className="absolute inset-0 bg-[var(--bg3)] border border-[var(--border)] rounded-2xl flex flex-col items-center justify-center gap-5">
+                {/* Avatar */}
+                <div className="relative w-[140px] h-[140px] rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-5xl font-extrabold text-[var(--bg)]">
+                  {personalInfo.initials}
+
+                  <div className="absolute inset-[-4px] rounded-full border-2 border-[rgba(0,217,163,0.3)] animate-spin-slow"></div>
+                </div>
+
+                <div className="text-xl font-bold">{personalInfo.name}</div>
+
+                <div className="text-xs uppercase tracking-wider text-[var(--accent)] font-mono">
+                  {personalInfo.role}
+                </div>
+
+                {/* Badges */}
+                <div className="flex flex-wrap gap-2 justify-center px-4">
+                  {heroBadges.map((b) => (
+                    <span
+                      key={b}
+                      className="text-[10px] px-3 py-1 rounded-full border border-[var(--border)] bg-white/5 text-[var(--muted)] font-mono"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* FLOAT CARDS */}
+              {/* {heroFloatCards.map((fc) => (
+                <div
+                  key={fc.label}
+                  className={`absolute bg-[var(--bg2)] border border-[var(--border)] rounded-lg px-4 py-3 backdrop-blur-md animate-float ${
+                    fc.className === "card1"
+                      ? "-top-5 -left-12"
+                      : "bottom-10 -right-12"
+                  }`}
+                >
+                  <div className="text-[10px] text-[var(--muted)] font-mono mb-1">
+                    {fc.label}
+                  </div>
+                  <div className="text-xl font-bold text-[var(--accent)]">
+                    {fc.value}
+                  </div>
+                </div>
+              ))} */}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-4xl px-6 text-center">
-        <p
-          className={`text-primary font-mono text-sm mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          Hello, my name is
-        </p>
-
-        <h1
-          className={`text-5xl md:text-7xl font-bold mb-4 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          Ranjit <span className="text-primary">Rajbanshi</span>
-        </h1>
-
-        <h2
-          className={`text-3xl md:text-5xl font-bold text-muted-foreground mb-6 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          {typedText}
-          <span className="text-primary animate-pulse">|</span>
-        </h2>
-
-        <p
-          className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          I build modern, high-performance web applications with clean code,
-          scalable architecture, and great user experience.
-        </p>
-
-        {/* Buttons */}
-        <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 transition-all duration-700 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          <button
-            onClick={() => scrollToSection("projects")}
-            className="px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition hover:-translate-y-1"
-          >
-            View My Work →
-          </button>
-
-          <button
-            onClick={() => scrollToSection("contact")}
-            className="px-8 py-4 border border-primary text-primary rounded-lg hover:bg-primary/10 transition hover:-translate-y-1"
-          >
-            Get In Touch
-          </button>
-        </div>
-
-        {/* Social Icons */}
-        <div
-          className={`flex justify-center gap-6 transition-all duration-700 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          {socialLinks.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition hover:-translate-y-1"
-            >
-              <social.icon className="w-6 h-6" />
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <button
-        onClick={() => scrollToSection("about")}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary animate-bounce"
-      >
-        <ChevronDown className="w-8 h-8" />
-      </button>
+      {/* BG GRID */}
+      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:80px_80px] mask-radial"></div>
     </section>
   );
-};
-
-export default Hero;
+}

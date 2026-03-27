@@ -1,190 +1,193 @@
-import React from "react";
-import { Mail, Phone, Github, Linkedin, Twitter, Send } from "lucide-react";
+// components/Contact.jsx
+import { useState } from "react";
+import { personalInfo } from "../data/portfolioData";
 
-const Contact = () => {
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: "Email",
-      value: "ranjitrajbanshi158@email.com",
-      link: "ranjitrajbanshi158@email.com"
-    },
-    {
-      icon: Phone,
-      title: "Phone",
-      value: "9824301087",
-      
-    }
-  ];
+const channels = [
+  {
+    href: `mailto:${personalInfo.email}`,
+    icon: "fas fa-envelope",
+    label: "Email",
+    val: personalInfo.email,
+  },
+  {
+    href: personalInfo.linkedin,
+    icon: "fab fa-linkedin",
+    label: "LinkedIn",
+    val: personalInfo.linkedinHandle,
+    target: "_blank",
+  },
+  {
+    href: personalInfo.github,
+    icon: "fab fa-github",
+    label: "GitHub",
+    val: personalInfo.githubHandle,
+    target: "_blank",
+  },
+  {
+    href: personalInfo.whatsapp,
+    icon: "fab fa-whatsapp",
+    label: "WhatsApp",
+    val: personalInfo.whatsappHandle,
+    target: "_blank",
+  },
+];
 
-  const socialLinks = [
-    {
-      icon: Github,
-      title: "GitHub",
-      url: "https://github.com/Rannjit158",
-      color: "hover:text-blue-600"
-    },
-    {
-      icon: Linkedin,
-      title: "LinkedIn",
-      url: "https://www.linkedin.com/in/ranjit-rajbanshi-a62856343/",
-      color: "hover:text-blue-600"
-    },
-    {
-      icon: Twitter,
-      title: "Twitter",
-      url: "https://twitter.com",
-      color: "hover:text-blue-600"
+export default function Contact() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [status, setStatus] = useState(null);
+
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    try {
+      const emailjs = window.emailjs;
+      await emailjs.send(
+        personalInfo.emailjsServiceId,
+        personalInfo.emailjsTemplateId,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          subject: form.subject,
+          message: form.message,
+          to_name: personalInfo.name,
+        },
+      );
+      setStatus("success");
+      setForm({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setStatus(null), 6000);
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
     }
-  ];
+  };
 
   return (
-    <section className="py-20 bg-black text-white">
+    <section
+      id="contact"
+      className="py-28 relative z-10" // <-- z-10 ensures it's above body::before
+    >
       <div className="container mx-auto px-6">
-        {/* Section Header */}
+        {/* HEADER */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Get In <span className="text-blue-500">Touch</span>
+          <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-mono">
+            Get In Touch
+          </span>
+          <h2 className="text-4xl font-extrabold mt-3 mb-4">
+            Let's build something{" "}
+            <span className="text-[var(--accent)]">amazing together</span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            Have a project in mind? Let's discuss how we can work together to bring your ideas to life.
+          <p className="text-[var(--muted)] max-w-xl mx-auto">
+            Have a project in mind? I'd love to hear about it. Send me a message
+            and I'll get back to you within 24 hours.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info Side */}
-          <div className="space-y-10">
-            {/* Intro */}
-            <div className="space-y-4">
-              <h3 className="text-2xl font-semibold">Let's Connect</h3>
-              <p className="text-gray-400 leading-relaxed">
-                I'm always interested in hearing about new opportunities, interesting projects, or simply chatting tech.
-              </p>
-            </div>
-
-            {/* Contact Items */}
-            <div className="space-y-4">
-              {contactInfo.map((contact, index) => {
-                const Icon = contact.icon;
-                return (
-                  <a
-                    key={index}
-                    href={contact.link}
-                    className="flex items-center gap-4 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition"
-                  >
-                    <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">{contact.title}</h4>
-                      <p className="text-gray-400">{contact.value}</p>
-                    </div>
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* Social Icons */}
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Follow Me</h4>
-              <div className="flex gap-4">
-                {socialLinks.map((social, index) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color}`}
-                      title={social.title}
-                    >
-                      <Icon className="h-6 w-6" />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
+        {/* 2-COLUMN GRID */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* LEFT COLUMN: CONTACT CHANNELS */}
+          <div className="flex flex-col gap-6">
+            {channels.map((ch, i) => (
+              <a
+                key={ch.label}
+                href={ch.href}
+                target={ch.target}
+                rel="noreferrer"
+                className="
+                  flex items-center gap-4 p-5 rounded-xl
+                  border border-[var(--border)] bg-[var(--card)]
+                  transition-all duration-300
+                  hover:bg-[var(--card-h)]
+                  hover:border-[rgba(0,217,163,0.2)]
+                "
+              >
+                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] text-[var(--accent)] text-lg shrink-0">
+                  <i className={ch.icon}></i>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono mb-1">
+                    {ch.label}
+                  </div>
+                  <div className="text-sm font-medium text-[var(--text)]">
+                    {ch.val}
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
 
-          {/* Form Side */}
-          <div className="bg-gray-900 p-8 rounded-lg shadow-lg">
-            <form className="space-y-6">
-              {/* Header */}
-              <div className="text-center space-y-2">
-                <h3 className="text-2xl font-bold">Send Message</h3>
-                <p className="text-gray-400">
-                  Fill out the form and I'll reach out as soon as I can.
-                </p>
-              </div>
-
-              {/* Name Fields */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="firstName" className="text-sm font-medium">First Name</label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    placeholder="Ram"
-                    className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="lastName" className="text-sm font-medium">Last Name</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Rajbanshi"
-                    className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="ram@example.com"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              {/* Subject */}
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">Subject</label>
-                <input
+          {/* RIGHT COLUMN: CONTACT FORM */}
+          <div>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <InputField
+                  label="Your Name"
+                  name="name"
                   type="text"
-                  id="subject"
-                  name="subject"
-                  placeholder="Project Discussion"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-500"
+                  placeholder="John Doe"
+                  value={form.name}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  value={form.email}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Message */}
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Tell me about your project or just say hello!"
-                  rows={5}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded resize-none focus:outline-none focus:border-blue-500"
-                />
-              </div>
+              <InputField
+                label="Subject"
+                name="subject"
+                type="text"
+                placeholder="Project enquiry"
+                value={form.subject}
+                onChange={handleChange}
+              />
+              <TextArea
+                label="Message"
+                name="message"
+                placeholder="Tell me about your project..."
+                value={form.message}
+                onChange={handleChange}
+              />
 
-              {/* Submit Button */}
+              {status === "success" && (
+                <div className="px-4 py-3 rounded-lg text-sm font-mono border bg-[rgba(0,217,163,0.1)] border-[rgba(0,217,163,0.3)] text-[var(--accent)]">
+                  ✓ Message sent! I'll get back to you within 24 hours.
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="px-4 py-3 rounded-lg text-sm font-mono border bg-[rgba(255,80,80,0.1)] border-[rgba(255,80,80,0.3)] text-red-400">
+                  ✗ Failed to send. Please email me directly.
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded flex items-center justify-center gap-2 transition"
+                disabled={status === "sending"}
+                className="btn-primary inline-flex items-center gap-2"
               >
-                <Send className="h-5 w-5" />
-                Send Message
+                {status === "sending" ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Sending...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-paper-plane"></i> Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
@@ -192,6 +195,57 @@ const Contact = () => {
       </div>
     </section>
   );
-};
+}
 
-export default Contact;
+// InputField component
+function InputField({ label, name, type, placeholder, value, onChange }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono">
+        {label}
+      </label>
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required
+        className="
+          w-full px-4 py-3 rounded-lg
+          bg-[var(--card)] border border-[var(--border)]
+          text-sm text-[var(--text)]
+          outline-none transition-all duration-300
+          focus:border-[var(--accent)]
+          focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]
+        "
+      />
+    </div>
+  );
+}
+
+// TextArea component
+function TextArea({ label, name, placeholder, value, onChange }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono">
+        {label}
+      </label>
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required
+        className="
+          w-full px-4 py-3 rounded-lg min-h-[140px] resize-none
+          bg-[var(--card)] border border-[var(--border)]
+          text-sm text-[var(--text)]
+          outline-none transition-all duration-300
+          focus:border-[var(--accent)]
+          focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]
+        "
+      />
+    </div>
+  );
+}

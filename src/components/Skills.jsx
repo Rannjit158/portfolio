@@ -1,150 +1,107 @@
 import { useEffect, useRef, useState } from "react";
-import { Code2, Palette, Database, Globe, Smartphone, Zap } from "lucide-react";
+import { skillCategories } from "../data/portfolioData";
 
-const skills = [
-  {
-    icon: Code2,
-    title: "Frontend Development",
-    description:
-      "Building responsive and interactive user interfaces with modern frameworks and best practices.",
-    technologies: ["React", "Next.js", "Vue.js", "TypeScript"],
-  },
-  {
-    icon: Palette,
-    title: "UI/UX Design",
-    description:
-      "Creating beautiful, intuitive designs that prioritize user experience and accessibility.",
-    technologies: ["Figma", "Adobe XD", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    icon: Database,
-    title: "Backend Integration",
-    description:
-      "Connecting frontends with robust APIs and managing data flow efficiently.",
-    technologies: ["Node.js", "REST APIs", "GraphQL", "PostgreSQL"],
-  },
-  {
-    icon: Globe,
-    title: "Web Performance",
-    description:
-      "Optimizing applications for speed, SEO, and delivering exceptional user experiences.",
-    technologies: ["Core Web Vitals", "Lighthouse", "CDN", "Caching"],
-  },
-  {
-    icon: Smartphone,
-    title: "Responsive Design",
-    description:
-      "Crafting seamless experiences across all devices and screen sizes.",
-    technologies: ["Mobile-First", "CSS Grid", "Flexbox", "Media Queries"],
-  },
-  {
-    icon: Zap,
-    title: "Modern Tooling",
-    description:
-      "Leveraging cutting-edge development tools for efficient workflows.",
-    technologies: ["Git", "Vite", "Webpack", "Docker"],
-  },
-];
+function SkillCard({ cat }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
 
-const Skills = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const sectionRef = useRef(null);
-
+  // Intersection Observer (clean way)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          setVisible(true);
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.3 },
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} id="skills" className="py-24 md:py-32 bg-gray-50">
-      <div className="mx-auto max-w-6xl px-6">
-        {/* Section Header */}
-        <div
-          className={`mb-12 flex items-center gap-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <span className="font-mono text-sm text-primary">02.</span>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-            Skills & Expertise
-          </h2>
-          <div className="h-px flex-1 max-w-xs bg-gray-200" />
-        </div>
+    <div
+      ref={ref}
+      className="group relative bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(0,217,163,0.3)] hover:bg-[var(--card-h)] overflow-hidden"
+    >
+      {/* Top Gradient Bar */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] opacity-0 group-hover:opacity-100 transition" />
 
-        {/* Skills Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {skills.map((skill, index) => (
-            <div
-              key={skill.title}
-              className={`group relative rounded-xl border bg-white p-6 transition-all duration-500 hover:-translate-y-2 hover:border-primary/50 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              {/* Glow Effect */}
-              <div
-                className={`absolute inset-0 rounded-xl bg-primary/5 blur-xl transition-opacity duration-500 ${
-                  hoveredIndex === index ? "opacity-100" : "opacity-0"
-                }`}
-              />
+      {/* Icon */}
+      <div className="w-12 h-12 rounded-xl bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] flex items-center justify-center text-xl text-[var(--accent)] mb-5">
+        <i className={cat.icon}></i>
+      </div>
 
-              {/* Content */}
-              <div className="relative z-10">
-                {/* Icon */}
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition">
-                  <skill.icon className="h-6 w-6 text-primary" />
-                </div>
+      {/* Title */}
+      <h3 className="text-lg font-bold mb-5">{cat.title}</h3>
 
-                {/* Title */}
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-primary transition">
-                  {skill.title}
-                </h3>
-
-                {/* Description */}
-                <p className="mb-4 text-sm text-gray-600 leading-relaxed">
-                  {skill.description}
-                </p>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {skill.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md bg-primary/10 px-2 py-1 text-xs font-mono text-primary"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+      {/* CONTENT */}
+      {cat.type === "bars" ? (
+        <div className="flex flex-col gap-4">
+          {cat.items.map((item) => (
+            <div key={item.name}>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">{item.name}</span>
+                <span className="text-xs font-mono text-[var(--accent)]">
+                  {item.pct}%
+                </span>
               </div>
 
-              {/* Corner Accent */}
-              <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden rounded-tr-xl">
-                <div className="absolute right-0 top-0 h-full w-full origin-top-right scale-0 bg-gradient-to-bl from-primary/10 to-transparent transition-transform duration-500 group-hover:scale-100" />
+              <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] rounded-full transition-all duration-[1200ms]"
+                  style={{
+                    width: visible ? `${item.pct}%` : "0%",
+                  }}
+                />
               </div>
             </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          {cat.items.map((pill) => (
+            <span
+              key={pill}
+              className="px-3 py-1 text-xs rounded-full border border-[var(--border)] bg-white/5 text-[var(--muted)] font-mono"
+            >
+              {pill}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Skills() {
+  return (
+    <section id="skills" className="py-28 bg-[var(--bg2)]">
+      <div className="container mx-auto px-6">
+        {/* HEADER */}
+        <div className="text-center mb-20">
+          <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-mono">
+            My Toolkit
+          </span>
+
+          <h2 className="text-4xl font-extrabold mt-3 mb-4">
+            Skills & Technologies
+          </h2>
+
+          <p className="text-[var(--muted)] max-w-xl mx-auto">
+            A curated set of tools and technologies I use to build world-class
+            applications from concept to deployment.
+          </p>
+        </div>
+
+        {/* GRID */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {skillCategories.map((cat) => (
+            <SkillCard key={cat.title} cat={cat} />
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

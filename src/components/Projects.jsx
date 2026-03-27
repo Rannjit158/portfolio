@@ -1,305 +1,137 @@
-import { useEffect, useRef, useState } from "react";
-import { ExternalLink, Github, Folder } from "lucide-react";
+// components/Projects.jsx
+import { useState } from "react";
+import { projects } from "../data/portfolioData";
 
-const featuredProjects = [
-  {
-    title: "E-Commerce Platform",
-    description:
-      "A full-stack e-commerce application with real-time inventory management, secure payment processing, and an admin dashboard. Features include product filtering, user authentication, and order tracking.",
-    image: "/projects/ecommerce.jpg",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Stripe",
-      "PostgreSQL",
-      "Tailwind CSS",
-    ],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Task Management App",
-    description:
-      "A collaborative project management tool with drag-and-drop functionality, real-time updates, and team collaboration features. Includes Kanban boards, calendars, and progress tracking.",
-    image: "/projects/taskapp.jpg",
-    technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Redux"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "AI Content Generator",
-    description:
-      "An AI-powered content creation platform that helps users generate blog posts, social media content, and marketing copy. Integrates with OpenAI GPT-4 for intelligent content suggestions.",
-    image: "/projects/ai-generator.jpg",
-    technologies: [
-      "Next.js",
-      "OpenAI API",
-      "Prisma",
-      "Vercel AI SDK",
-      "shadcn/ui",
-    ],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
+const filters = [
+  { key: "all", label: "All" },
+  { key: "laravel", label: "Laravel" },
+  { key: "react", label: "React / Next.js" },
+  { key: "fullstack", label: "Full-Stack" },
 ];
 
-const otherProjects = [
-  {
-    title: "Weather Dashboard",
-    description:
-      "A beautiful weather app with 7-day forecasts, location search, and animated weather conditions.",
-    technologies: ["React", "Weather API", "Charts.js"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Portfolio Template",
-    description:
-      "A customizable portfolio template for developers with dark mode and smooth animations.",
-    technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Chat Application",
-    description:
-      "Real-time messaging app with private rooms, emoji support, and file sharing capabilities.",
-    technologies: ["Socket.io", "Express", "React"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Fitness Tracker",
-    description:
-      "Track workouts, set goals, and monitor progress with detailed analytics and charts.",
-    technologies: ["React Native", "Firebase", "D3.js"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Recipe Finder",
-    description:
-      "Search and save recipes with ingredient-based filtering and nutritional information.",
-    technologies: ["Vue.js", "Spoonacular API", "Vuex"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-  {
-    title: "Markdown Editor",
-    description:
-      "A minimal markdown editor with live preview, syntax highlighting, and export options.",
-    technologies: ["TypeScript", "CodeMirror", "React"],
-    github: "https://github.com",
-    external: "https://example.com",
-  },
-];
-
-export default function Projects() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showAll, setShowAll] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.1 },
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const displayedProjects = showAll ? otherProjects : otherProjects.slice(0, 3);
+function ProjectCard({ project, active }) {
+  const featured = project.featured;
+  const show = active === "all" || project.categories.includes(active);
 
   return (
-    <section
-      ref={sectionRef}
-      id="projects"
-      className="py-24 md:py-32 bg-gray-50"
+    <div
+      className={`group relative bg-[var(--bg3)] border border-[var(--border)] rounded-2xl overflow-hidden transition-all duration-300
+      ${featured ? "md:col-span-2" : ""}
+      ${show ? "opacity-100 scale-100" : "opacity-20 scale-95 pointer-events-none"}
+      hover:-translate-y-1 hover:border-[rgba(0,217,163,0.3)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)]`}
     >
-      <div className="mx-auto max-w-6xl px-6">
-        {/* Section Header */}
+      {/* THUMB */}
+      <div
+        className={`relative flex items-center justify-center overflow-hidden ${
+          featured ? "h-[240px]" : "h-[200px]"
+        }`}
+        style={{ background: project.thumbBg }}
+      >
+        <span className="text-6xl opacity-10">{project.emoji}</span>
+
+        <span className="absolute bottom-4 left-5 text-[80px] font-extrabold text-white/5 leading-none">
+          {project.num}
+        </span>
+
         <div
-          className={`mb-12 flex items-center gap-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <span className="text-primary font-mono text-sm md:text-base">
-            03.
+          className="absolute top-0 left-0 right-0 h-[3px]"
+          style={{ background: project.accentBar }}
+        />
+      </div>
+
+      {/* BODY */}
+      <div className="p-7">
+        {/* TAGS */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.map((t) => (
+            <span
+              key={t}
+              className="text-[10px] px-3 py-1 rounded-full font-mono text-[var(--accent)] bg-[rgba(0,217,163,0.08)] border border-[rgba(0,217,163,0.2)]"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* TITLE */}
+        <h3 className="text-xl font-bold mb-3 leading-tight">
+          {project.title}
+        </h3>
+
+        {/* DESC */}
+        <p className="text-sm text-[var(--muted)] leading-relaxed mb-6">
+          {project.desc}
+        </p>
+
+        {/* LINKS */}
+        <div className="flex gap-4">
+          <a
+            href={project.liveUrl}
+            className="flex items-center gap-2 text-xs font-mono text-[var(--muted)] hover:text-[var(--accent)] transition"
+          >
+            <i className="fas fa-external-link-alt"></i>
+            Live Demo
+          </a>
+
+          <a
+            href={project.githubUrl}
+            className="flex items-center gap-2 text-xs font-mono text-[var(--muted)] hover:text-[var(--accent)] transition"
+          >
+            <i className="fab fa-github"></i>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Projects() {
+  const [active, setActive] = useState("all");
+
+  return (
+    <section id="projects" className="py-28">
+      <div className="container mx-auto px-6">
+        {/* HEADER */}
+        <div className="text-center mb-20">
+          <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-mono">
+            My Work
           </span>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+
+          <h2 className="text-4xl font-extrabold mt-3 mb-4">
             Featured Projects
           </h2>
-          <div className="flex-1 h-px bg-gray-200 max-w-xs" />
+
+          <p className="text-[var(--muted)] max-w-xl mx-auto">
+            A selection of real-world applications built with modern stacks,
+            focusing on performance, scalability, and great UX.
+          </p>
         </div>
 
-        {/* Featured Projects */}
-        <div className="space-y-24 mb-24">
-          {featuredProjects.map((project, index) => (
-            <div
-              key={project.title}
-              className={`relative grid md:grid-cols-12 gap-4 items-center transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              {/* Project Image */}
-              <div
-                className={`md:col-span-7 ${index % 2 === 0 ? "md:order-1" : "md:order-2"}`}
-              >
-                <a
-                  href={project.external}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block relative group rounded-lg overflow-hidden"
-                >
-                  <div className="aspect-video bg-gray-200 flex items-center justify-center">
-                    <Folder className="w-16 h-16 text-primary/50" />
-                  </div>
-                </a>
-              </div>
-
-              {/* Project Content */}
-              <div
-                className={`md:col-span-6 relative z-10 ${
-                  index % 2 === 0
-                    ? "md:order-2 md:text-right md:-ml-12"
-                    : "md:order-1 md:text-left md:-mr-12"
-                }`}
-              >
-                <p className="text-primary font-mono text-sm mb-2">
-                  Featured Project
-                </p>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 hover:text-primary transition-colors duration-300">
-                  <a
-                    href={project.external}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.title}
-                  </a>
-                </h3>
-
-                <div className="bg-white p-6 rounded-lg shadow mb-4">
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
-
-                <ul
-                  className={`flex flex-wrap gap-3 mb-4 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}
-                >
-                  {project.technologies.map((tech) => (
-                    <li
-                      key={tech}
-                      className="text-xs font-mono text-gray-500 hover:text-primary transition-colors duration-300"
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-
-                <div
-                  className={`flex gap-4 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}
-                >
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-900 hover:text-primary transition-colors duration-300"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a
-                    href={project.external}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-900 hover:text-primary transition-colors duration-300"
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Other Projects */}
-        <div
-          className={`text-center mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-        >
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-            Other Noteworthy Projects
-          </h3>
-          <p className="text-gray-500 mt-2">View the archive</p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayedProjects.map((project, index) => (
-            <div
-              key={project.title}
-              className={`group relative p-6 bg-white rounded-lg border border-gray-200 hover:border-primary/50 hover:-translate-y-2 transition-all duration-500 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100 + 300}ms` }}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <Folder className="w-10 h-10 text-primary" />
-                <div className="flex gap-3">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-primary transition-colors duration-300"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a
-                    href={project.external}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-primary transition-colors duration-300"
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors duration-300">
-                {project.title}
-              </h4>
-              <p className="text-sm text-gray-500 mb-4 leading-relaxed">
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {project.technologies.map((tech) => (
-                  <span key={tech} className="text-xs font-mono text-gray-500">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Show More */}
-        {otherProjects.length > 3 && (
-          <div className="text-center mt-12">
+        {/* FILTERS */}
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {filters.map((f) => (
             <button
-              onClick={() => setShowAll(!showAll)}
-              className="px-8 py-3 text-sm font-medium border border-primary text-primary rounded-lg hover:bg-primary/10 transition-all duration-300"
+              key={f.key}
+              onClick={() => setActive(f.key)}
+              className={`px-5 py-2 text-xs font-mono rounded-full border transition
+                ${
+                  active === f.key
+                    ? "bg-[var(--accent)] text-black border-[var(--accent)]"
+                    : "bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:border-[var(--accent)] hover:text-white"
+                }`}
             >
-              {showAll ? "Show Less" : "Show More"}
+              {f.label}
             </button>
-          </div>
-        )}
+          ))}
+        </div>
+
+        {/* GRID */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((p) => (
+            <ProjectCard key={p.id} project={p} active={active} />
+          ))}
+        </div>
       </div>
     </section>
   );
