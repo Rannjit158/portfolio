@@ -104,9 +104,15 @@ export default function Hero() {
               {/* MAIN CARD */}
               <div className="absolute inset-0 bg-[var(--bg3)] border border-[var(--border)] rounded-2xl flex flex-col items-center justify-center gap-5">
                 {/* Avatar */}
-                <div className="relative w-[140px] h-[140px] rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-5xl font-extrabold text-[var(--bg)]">
-                  {personalInfo.initials}
+                <div className="relative w-[140px] h-[140px] rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center overflow-hidden">
+                  {/* Hero Image */}
+                  <img
+                    src={personalInfo.heroImage}
+                    alt={personalInfo.name}
+                    className="w-full h-full object-cover rounded-full"
+                  />
 
+                  {/* Animated Border */}
                   <div className="absolute inset-[-4px] rounded-full border-2 border-[rgba(0,217,163,0.3)] animate-spin-slow"></div>
                 </div>
 

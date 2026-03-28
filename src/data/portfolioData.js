@@ -14,7 +14,7 @@ import {
 
 export const personalInfo = {
   name: "Ranjit Rajbanshi",
-  heroImage: "/image/1.png",
+  heroImage: "/image/ranjit.jpeg",
   initials: "RR",
   logo: "Ranjit",
   role: "Laravel · React · Next.js",
