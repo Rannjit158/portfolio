@@ -3,7 +3,7 @@
 
 export const personalInfo = {
   name: "Ranjit Rajbanshi",
-  heroImage: "/images/1.png",
+  heroImage: "/image/1.png",
   initials: "RR",
   logo: "Ranjit",
   role: "Laravel · React · Next.js",

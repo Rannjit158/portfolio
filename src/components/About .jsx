@@ -14,28 +14,14 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-20 items-center">
           {/* IMAGE */}
           <div className="relative">
-            <div className="relative w-full aspect-square bg-gradient-to-br from-[#0D1117] to-[#111820] border border-[var(--border)] rounded-2xl flex items-center justify-center overflow-hidden">
-              {/* Big Background Letter */}
-              <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none">
-                <img
-                  src={personalInfo.heroImage} // make sure this points to your image URL or import
-                  alt="Hero"
-                  className="w-[260px] h-[260px] object-cover rounded-full opacity-20"
-                />
-              </div>
-
-              {/* Center Avatar */}
-              <div className="relative z-10 w-[140px] h-[140px] rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center text-5xl font-extrabold text-[var(--bg)]">
-                {personalInfo.initials}
-              </div>
+            <div className="w-full aspect-square bg-gradient-to-br from-[#0D1117] to-[#111820] border border-[var(--border)] rounded-2xl flex items-center justify-center overflow-hidden">
+              <img
+                src={personalInfo.heroImage}
+                alt="Hero"
+                className="w-full h-full object-cover "
+              />
             </div>
-
-            {/* Decorative Box */}
-            {/* <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] flex items-center justify-center">
-              <i className="fas fa-code text-[var(--bg)] text-2xl"></i>
-            </div> */}
           </div>
-
           {/* TEXT */}
           <div>
             <span className="inline-block mb-4 text-xs tracking-widest uppercase text-[var(--muted)] font-mono">
