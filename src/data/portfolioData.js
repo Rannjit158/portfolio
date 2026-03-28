@@ -1,6 +1,17 @@
 // ── portfolioData.js ──
 // Edit all your portfolio content here
 
+import {
+  FaServer,
+  FaLaptopCode,
+  FaPaintBrush,
+  FaTools,
+  FaDatabase,
+  FaMobileAlt,
+  FaBug,
+  FaPlug,
+} from "react-icons/fa";
+
 export const personalInfo = {
   name: "Ranjit Rajbanshi",
   heroImage: "/image/1.png",
@@ -20,13 +31,12 @@ export const personalInfo = {
   cvLink: "#",
   email: "ranjitrajbanshi58@email.com",
   linkedin: "https://linkedin.com",
-  linkedinHandle: "linkedin.com/in/yourprofile",
+  linkedinHandle: "linkedin.com/in/ranjit-rajbanshi-a62856343/",
   github: "https://github.com",
-  githubHandle: "github.com/yourusername",
+  githubHandle: "github.com/Rannjit158",
   whatsapp: "https://wa.me/977XXXXXXXXXX",
-  whatsappHandle: "+977 XXXXXXXXXX",
-  twitter: "https://twitter.com",
-  copyright: "© 2025 Your Name. Crafted with ❤️ in Nepal 🇳🇵",
+  whatsappHandle: "9824301087",
+
   // EmailJS credentials
   emailjsPublicKey: "YOUR_PUBLIC_KEY",
   emailjsServiceId: "YOUR_SERVICE_ID",
@@ -64,86 +74,60 @@ export const navLinks = [
 
 export const skillCategories = [
   {
-    icon: "fas fa-server",
+    icon: FaServer,
     title: "Backend Development",
     type: "bars",
     items: [
       { name: "Laravel / PHP", pct: 95 },
       { name: "REST API Design", pct: 90 },
-      { name: "MySQL / PostgreSQL", pct: 88 },
-      { name: "Node.js / Express", pct: 70 },
+      { name: "MySQL ", pct: 88 },
     ],
   },
   {
-    icon: "fas fa-laptop-code",
+    icon: FaLaptopCode,
     title: "Frontend Development",
     type: "bars",
     items: [
       { name: "React.js", pct: 90 },
-      { name: "Next.js", pct: 85 },
+      { name: "JQuery/Ajax", pct: 85 },
       { name: "HTML / CSS / Tailwind", pct: 95 },
-      { name: "JavaScript / TypeScript", pct: 85 },
     ],
   },
   {
-    icon: "fas fa-paint-brush",
+    icon: FaPaintBrush,
     title: "Design & UI/UX",
     type: "bars",
     items: [
-      { name: "Figma", pct: 88 },
-      { name: "UI/UX Principles", pct: 82 },
-      { name: "Responsive Design", pct: 95 },
-      { name: "Adobe XD / PS", pct: 70 },
+      { name: "Figma", pct: 60 },
+      { name: "UI/UX Principles", pct: 50 },
+      { name: "Responsive Design", pct: 80 },
     ],
   },
   {
-    icon: "fas fa-tools",
+    icon: FaTools,
     title: "DevOps & Tools",
     type: "pills",
     items: [
       "Git / GitHub",
-      "Docker",
       "Linux",
       "Nginx",
       "AWS EC2",
-      "CI/CD",
-      "Redis",
       "Composer",
       "npm / yarn",
       "Postman",
     ],
   },
   {
-    icon: "fas fa-database",
+    icon: FaDatabase,
     title: "Databases & Storage",
     type: "pills",
-    items: [
-      "MySQL",
-      "PostgreSQL",
-      "SQLite",
-      "Redis",
-      "MongoDB",
-      "Firebase",
-      "Eloquent ORM",
-      "Migrations",
-    ],
+    items: ["MySQL", "Eloquent ORM", "Migrations"],
   },
   {
-    icon: "fas fa-mobile-alt",
+    icon: FaMobileAlt,
     title: "Other Skills",
     type: "pills",
-    items: [
-      "REST APIs",
-      "GraphQL",
-      "Livewire",
-      "Inertia.js",
-      "Blade",
-      "Sanctum",
-      "Passport",
-      "Stripe / PayPal",
-      "SEO",
-      "PWA",
-    ],
+    items: ["REST APIs", "Blade", "Sanctum", "Passport", "SEO"],
   },
 ];
 
@@ -152,14 +136,13 @@ export const projects = [
     id: 1,
     featured: true,
     categories: ["fullstack", "laravel"],
-    emoji: "🛒",
-    num: "01",
+    image: "image/pearl.png",
     thumbBg: "linear-gradient(135deg,#0a1628,#0d2240)",
     accentBar: "linear-gradient(90deg,#00D9A3,#0066FF)",
-    tags: ["Laravel", "React", "MySQL", "Stripe"],
-    title: "E-Commerce Platform",
-    desc: "A full-featured multi-vendor e-commerce platform with real-time inventory management, Stripe payments, order tracking, and an admin dashboard built with React and Laravel API backend.",
-    liveUrl: "#",
+    tags: ["Laravel", "Laravel Blade", "MySQL"],
+    title: "Pearl Makeup & Nil Studio",
+    desc: "Perl Make Up Studio offers professional makeup services for bridal and special occasions, enhancing your natural beauty with flawless results.",
+    liveUrl: "https://pearlmakeupstudio.com/home",
     githubUrl: "#",
   },
   {
@@ -231,55 +214,41 @@ export const projects = [
 
 export const workHistory = [
   {
-    date: "2023 — Present",
-    title: "Senior Laravel Developer",
-    company: "Tech Company · Full-time",
+    date: "2025 — Present",
+    title: "Laravel Developer",
+    company: "Ratoguras Technology Pvt.Ltd · Full-time",
     desc: "Leading development of SaaS products, architecting microservices, mentoring junior developers, and collaborating with design and product teams.",
-    techs: ["Laravel 11", "React", "AWS", "Docker"],
+    techs: ["Laravel", "React"],
   },
   {
-    date: "2022 — 2023",
+    date: "2025-present",
     title: "Full-Stack Developer",
-    company: "Digital Agency · Full-time",
+    company: "Ratoguras Technology Pvt.Ltd · Full-time",
     desc: "Built custom web applications for 10+ clients ranging from e-commerce to healthcare. Delivered projects on time with high client satisfaction.",
     techs: ["Laravel", "Vue.js", "MySQL"],
-  },
-  {
-    date: "2021 — 2022",
-    title: "Junior PHP Developer",
-    company: "Startup · Full-time",
-    desc: "Developed and maintained Laravel applications, wrote RESTful APIs, implemented authentication, and worked on payment integrations.",
-    techs: ["PHP", "Laravel", "MySQL"],
   },
 ];
 
 export const education = [
   {
-    date: "2018 — 2022",
-    title: "BSc. Computer Science",
-    company: "University of Science & Technology · Nepal",
-    desc: "Graduated with honours. Focused on software engineering, databases, algorithms, and web technologies. Final year project: Full-stack hospital management system.",
+    date: "2022 — present",
+    title: "BSc. Computer Science & Information Technology",
+    company: "Hiamlaya Darshan College ·(Affiliated to Tribhuvan University)",
+    desc: "Bachelor Running",
     techs: [],
   },
   {
-    date: "2021",
-    title: "Laravel Certification",
-    company: "Laracasts · Online",
-    desc: "Completed advanced Laravel certification covering Eloquent ORM, API development, queues, and testing.",
-    techs: [],
-  },
-  {
-    date: "2020",
-    title: "React Developer Certification",
-    company: "Meta / Coursera",
-    desc: "Professional certificate in React development including hooks, context, testing, and performance optimization.",
+    date: "2025",
+    title: "Full Stack Development Certification",
+    company: "Rato Guras Technology Pvr.Ltd",
+    desc: "Completed advanced Full-Stack Development training, focusing on React for front-end, Laravel for back-end, UI/UX design, API development, state management, and building responsive, user-friendly web applications.",
     techs: [],
   },
 ];
 
 export const services = [
   {
-    icon: "fas fa-server",
+    icon: FaServer,
     iconBg: "rgba(0,217,163,0.1)",
     iconBorder: "rgba(0,217,163,0.2)",
     iconColor: "#00D9A3",
@@ -287,15 +256,7 @@ export const services = [
     desc: "Full-stack Laravel applications, REST APIs, SaaS platforms, admin panels, payment integrations, and custom CMS solutions.",
   },
   {
-    icon: "fas fa-laptop-code",
-    iconBg: "rgba(0,102,255,0.1)",
-    iconBorder: "rgba(0,102,255,0.2)",
-    iconColor: "#0066FF",
-    title: "React / Next.js Apps",
-    desc: "Modern, performant frontend applications with SSR, SSG, dynamic routing, and seamless API integration using React & Next.js.",
-  },
-  {
-    icon: "fas fa-paint-brush",
+    icon: FaPaintBrush,
     iconBg: "rgba(245,200,66,0.1)",
     iconBorder: "rgba(245,200,66,0.2)",
     iconColor: "#F5C842",
@@ -303,7 +264,7 @@ export const services = [
     desc: "Beautiful, user-centred interface designs in Figma — wireframes, prototypes, design systems, and handoff-ready components.",
   },
   {
-    icon: "fas fa-plug",
+    icon: FaPlug,
     iconBg: "rgba(0,217,163,0.1)",
     iconBorder: "rgba(0,217,163,0.2)",
     iconColor: "#00D9A3",
@@ -311,46 +272,11 @@ export const services = [
     desc: "Well-structured RESTful & GraphQL APIs with documentation, authentication, rate limiting, and third-party integrations.",
   },
   {
-    icon: "fas fa-cloud",
-    iconBg: "rgba(0,102,255,0.1)",
-    iconBorder: "rgba(0,102,255,0.2)",
-    iconColor: "#0066FF",
-    title: "Deployment & DevOps",
-    desc: "Server setup, Docker containerisation, CI/CD pipelines, AWS deployment, performance optimisation and monitoring.",
-  },
-  {
-    icon: "fas fa-bug",
+    icon: FaBug,
     iconBg: "rgba(245,200,66,0.1)",
     iconBorder: "rgba(245,200,66,0.2)",
     iconColor: "#F5C842",
     title: "Code Review & Consulting",
     desc: "In-depth code audits, architecture consulting, performance profiling, and technical mentoring for your development team.",
-  },
-];
-
-export const testimonials = [
-  {
-    stars: 5,
-    text: "Delivered the project 2 weeks ahead of schedule. The Laravel API is rock-solid and the React frontend looks stunning. Highly recommend!",
-    avatarBg: "linear-gradient(135deg,#00D9A3,#0066FF)",
-    initials: "A",
-    name: "Amit Sharma",
-    role: "CTO, TechNepal",
-  },
-  {
-    stars: 5,
-    text: "Exceptional attention to detail and clean code. Our e-commerce platform handles thousands of orders seamlessly. A true professional.",
-    avatarBg: "linear-gradient(135deg,#f5c842,#ff8800)",
-    initials: "S",
-    name: "Sarah Johnson",
-    role: "Founder, ShopEasy",
-  },
-  {
-    stars: 5,
-    text: "Transformed our Figma designs into a pixel-perfect Next.js app. Communication was clear throughout. We'll definitely work again!",
-    avatarBg: "linear-gradient(135deg,#a855f7,#ec4899)",
-    initials: "R",
-    name: "Ravi Patel",
-    role: "Product Manager, Edunow",
   },
 ];

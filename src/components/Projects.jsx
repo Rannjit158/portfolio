@@ -25,18 +25,24 @@ function ProjectCard({ project, active }) {
         className={`relative flex items-center justify-center overflow-hidden ${
           featured ? "h-[240px]" : "h-[200px]"
         }`}
-        style={{ background: project.thumbBg }}
       >
-        <span className="text-6xl opacity-10">{project.emoji}</span>
+        {/* Project Image */}
+        <img
+          src={project.image} // make sure this points to your image URL or import
+          alt={project.title || "Project Image"}
+          className="w-full h-full object-cover "
+        />
 
-        <span className="absolute bottom-4 left-5 text-[80px] font-extrabold text-white/5 leading-none">
-          {project.num}
-        </span>
-
+        {/* Optional Overlay (if you want accent bar visible) */}
         <div
           className="absolute top-0 left-0 right-0 h-[3px]"
           style={{ background: project.accentBar }}
         />
+
+        {/* Optional Number Overlay */}
+        {/* <span className="absolute bottom-4 left-5 text-[80px] font-extrabold text-white/5 leading-none">
+          {project.num}
+        </span> */}
       </div>
 
       {/* BODY */}

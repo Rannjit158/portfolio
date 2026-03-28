@@ -1,31 +1,39 @@
 // components/Contact.jsx
 import { useState } from "react";
 import { personalInfo } from "../data/portfolioData";
+import {
+  FaEnvelope,
+  FaLinkedin,
+  FaGithub,
+  FaWhatsapp,
+  FaPaperPlane,
+  FaSpinner,
+} from "react-icons/fa";
 
 const channels = [
   {
     href: `mailto:${personalInfo.email}`,
-    icon: "fas fa-envelope",
+    icon: FaEnvelope,
     label: "Email",
     val: personalInfo.email,
   },
   {
-    href: personalInfo.linkedin,
-    icon: "fab fa-linkedin",
+    href: personalInfo.linkedinHandle,
+    icon: FaLinkedin,
     label: "LinkedIn",
     val: personalInfo.linkedinHandle,
     target: "_blank",
   },
   {
-    href: personalInfo.github,
-    icon: "fab fa-github",
+    href: personalInfo.githubHandle,
+    icon: FaGithub,
     label: "GitHub",
     val: personalInfo.githubHandle,
     target: "_blank",
   },
   {
-    href: personalInfo.whatsapp,
-    icon: "fab fa-whatsapp",
+    href: personalInfo.whatsappHandle,
+    icon: FaWhatsapp,
     label: "WhatsApp",
     val: personalInfo.whatsappHandle,
     target: "_blank",
@@ -71,10 +79,7 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="py-28 relative z-10" // <-- z-10 ensures it's above body::before
-    >
+    <section id="contact" className="py-28 relative z-10">
       <div className="container mx-auto px-6">
         {/* HEADER */}
         <div className="text-center mb-16">
@@ -95,33 +100,36 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* LEFT COLUMN: CONTACT CHANNELS */}
           <div className="flex flex-col gap-6">
-            {channels.map((ch, i) => (
-              <a
-                key={ch.label}
-                href={ch.href}
-                target={ch.target}
-                rel="noreferrer"
-                className="
-                  flex items-center gap-4 p-5 rounded-xl
-                  border border-[var(--border)] bg-[var(--card)]
-                  transition-all duration-300
-                  hover:bg-[var(--card-h)]
-                  hover:border-[rgba(0,217,163,0.2)]
-                "
-              >
-                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] text-[var(--accent)] text-lg shrink-0">
-                  <i className={ch.icon}></i>
-                </div>
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono mb-1">
-                    {ch.label}
+            {channels.map((ch) => {
+              const Icon = ch.icon;
+              return (
+                <a
+                  key={ch.label}
+                  href={ch.href}
+                  target={ch.target}
+                  rel="noreferrer"
+                  className="
+                    flex items-center gap-4 p-5 rounded-xl
+                    border border-[var(--border)] bg-[var(--card)]
+                    transition-all duration-300
+                    hover:bg-[var(--card-h)]
+                    hover:border-[rgba(0,217,163,0.2)]
+                  "
+                >
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] text-[var(--accent)] text-lg shrink-0">
+                    <Icon size={20} />
                   </div>
-                  <div className="text-sm font-medium text-[var(--text)]">
-                    {ch.val}
+                  <div>
+                    <div className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono mb-1">
+                      {ch.label}
+                    </div>
+                    <div className="text-sm font-medium text-[var(--text)]">
+                      {ch.val}
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              );
+            })}
           </div>
 
           {/* RIGHT COLUMN: CONTACT FORM */}
@@ -181,11 +189,11 @@ export default function Contact() {
               >
                 {status === "sending" ? (
                   <>
-                    <i className="fas fa-spinner fa-spin"></i> Sending...
+                    <FaSpinner className="animate-spin" /> Sending...
                   </>
                 ) : (
                   <>
-                    <i className="fas fa-paper-plane"></i> Send Message
+                    <FaPaperPlane /> Send Message
                   </>
                 )}
               </button>

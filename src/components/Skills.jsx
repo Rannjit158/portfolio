@@ -1,11 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { skillCategories } from "../data/portfolioData";
 
+// Import React Icons
+import {
+  FaServer,
+  FaLaptopCode,
+  FaPaintBrush,
+  FaTools,
+  FaDatabase,
+  FaMobileAlt,
+} from "react-icons/fa";
+
+const iconMap = {
+  "fas fa-server": FaServer,
+  "fas fa-laptop-code": FaLaptopCode,
+  "fas fa-paint-brush": FaPaintBrush,
+  "fas fa-tools": FaTools,
+  "fas fa-database": FaDatabase,
+  "fas fa-mobile-alt": FaMobileAlt,
+};
+
 function SkillCard({ cat }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  // Intersection Observer (clean way)
+  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -20,6 +39,8 @@ function SkillCard({ cat }) {
     return () => observer.disconnect();
   }, []);
 
+  const Icon = iconMap[cat.icon]; // Get React Icon component
+
   return (
     <div
       ref={ref}
@@ -30,7 +51,7 @@ function SkillCard({ cat }) {
 
       {/* Icon */}
       <div className="w-12 h-12 rounded-xl bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] flex items-center justify-center text-xl text-[var(--accent)] mb-5">
-        <i className={cat.icon}></i>
+        {Icon && <Icon size={24} />}
       </div>
 
       {/* Title */}
