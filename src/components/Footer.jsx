@@ -4,16 +4,31 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub", color: "text-blue-600" },
-    { icon: Linkedin, href: "#", label: "LinkedIn", color: "text-blue-600" },
-    { icon: Mail, href: "#contact", label: "Email", color: "text-blue-600" },
+    {
+      icon: Github,
+      href: "https://github.com/Rannjit158",
+      label: "GitHub",
+      color: "text-blue-600",
+    },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/ranjit-rajbanshi-a62856343/",
+      label: "LinkedIn",
+      color: "text-blue-600",
+    },
+    {
+      icon: Mail,
+      href: "mailto:ranjitrajbanshi158@gmail.com",
+      label: "Email",
+      color: "text-blue-600",
+    },
   ];
 
   const quickLinks = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "about" },
+    { name: "Skills", href: "skills" },
+    { name: "Projects", href: "projects" },
+    { name: "Contact", href: "contact" },
   ];
 
   const scrollToSection = (href) => {
@@ -28,7 +43,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-black text-white border-t border-[rgba(255,255,255,0.07)]">
+    <footer className="bg-black text-white border-t border-[rgba(255,255,255,0.07)] py-4">
       <div className="container mx-auto px-6 py-12">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
@@ -96,22 +111,18 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-[rgba(255,255,255,0.07)] pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-1 text-[rgba(255,255,255,0.6)] text-sm">
-              <span>© {currentYear} Ranjit Rajbanshi Developer. Made with</span>
-              <Heart className="w-4 h-4 text-red-500 animate-pulse" />
-              <span>and lots of coffee</span>
-            </div>
 
-            <div className="flex items-center gap-6 text-sm text-[rgba(255,255,255,0.6)]">
-              <button className="hover:text-green-500 transition-colors">
-                Privacy Policy
-              </button>
-              <button className="hover:text-green-500 transition-colors">
-                Terms of Service
-              </button>
-            </div>
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-center gap-6 text-center md:text-left">
+          {/* LEFT TEXT */}
+          <div className="flex flex-wrap justify-center md:justify-start items-center gap-1 text-[rgba(255,255,255,0.6)] text-sm leading-relaxed">
+            <span>© {currentYear} Ranjit Rajbanshi Developer.</span>
+
+            <span className="flex items-center gap-1">
+              Made with{" "}
+              <Heart className="w-4 h-4 text-red-500 animate-pulse inline-block" />
+            </span>
+
+            <span>and lots of coffee</span>
           </div>
         </div>
       </div>

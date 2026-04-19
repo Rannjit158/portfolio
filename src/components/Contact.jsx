@@ -1,6 +1,7 @@
 // components/Contact.jsx
 import { useState } from "react";
 import { personalInfo } from "../data/portfolioData";
+import emailjs from "@emailjs/browser";
 import {
   FaEnvelope,
   FaLinkedin,
@@ -52,12 +53,26 @@ export default function Contact() {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  const getTodayKey = (email) => {
+    const today = new Date().toISOString().split("T")[0];
+    return `contact_limit_${email}_${today}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const emailKey = form.email.trim().toLowerCase();
+    const storageKey = getTodayKey(emailKey);
+
+    let count = Number(localStorage.getItem(storageKey) || 0);
+
+    if (count >= 5) {
+      setStatus("limit");
+      s;
+      return;
+    }
     setStatus("sending");
 
     try {
-      const emailjs = window.emailjs;
       await emailjs.send(
         personalInfo.emailjsServiceId,
         personalInfo.emailjsTemplateId,
@@ -68,9 +83,12 @@ export default function Contact() {
           message: form.message,
           to_name: personalInfo.name,
         },
+        personalInfo.emailjsPublicKey,
       );
+
       setStatus("success");
       setForm({ name: "", email: "", subject: "", message: "" });
+
       setTimeout(() => setStatus(null), 6000);
     } catch (err) {
       console.error(err);
@@ -185,7 +203,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="btn-primary inline-flex items-center gap-2"
+                className="btn-primary inline-flex items-center justify-center gap-2 w-full"
               >
                 {status === "sending" ? (
                   <>

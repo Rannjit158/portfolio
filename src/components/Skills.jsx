@@ -1,25 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { skillCategories } from "../data/portfolioData";
 
-// Import React Icons
-import {
-  FaServer,
-  FaLaptopCode,
-  FaPaintBrush,
-  FaTools,
-  FaDatabase,
-  FaMobileAlt,
-} from "react-icons/fa";
-
-const iconMap = {
-  "fas fa-server": FaServer,
-  "fas fa-laptop-code": FaLaptopCode,
-  "fas fa-paint-brush": FaPaintBrush,
-  "fas fa-tools": FaTools,
-  "fas fa-database": FaDatabase,
-  "fas fa-mobile-alt": FaMobileAlt,
-};
-
 function SkillCard({ cat }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -39,7 +20,7 @@ function SkillCard({ cat }) {
     return () => observer.disconnect();
   }, []);
 
-  const Icon = iconMap[cat.icon]; // Get React Icon component
+  const Icon = cat.icon; // Get React Icon component
 
   return (
     <div

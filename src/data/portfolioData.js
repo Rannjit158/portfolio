@@ -1,6 +1,3 @@
-// ── portfolioData.js ──
-// Edit all your portfolio content here
-
 import {
   FaServer,
   FaLaptopCode,
@@ -38,9 +35,9 @@ export const personalInfo = {
   whatsappHandle: "9824301087",
 
   // EmailJS credentials
-  emailjsPublicKey: "YOUR_PUBLIC_KEY",
-  emailjsServiceId: "YOUR_SERVICE_ID",
-  emailjsTemplateId: "YOUR_TEMPLATE_ID",
+  emailjsPublicKey: "DjkipE-DZtAFPogrK",
+  emailjsServiceId: "service_nukmaaf",
+  emailjsTemplateId: "template_gp7w8hm",
 };
 
 export const stats = [
@@ -147,67 +144,15 @@ export const projects = [
   },
   {
     id: 2,
-    categories: ["laravel"],
-    emoji: "📋",
+    categories: ["fullstack", "laravel"],
+    image: "image/bajrang.png",
     num: "02",
     thumbBg: "linear-gradient(135deg,#0f1f0f,#142814)",
     accentBar: "linear-gradient(90deg,#00D9A3,#00ff88)",
-    tags: ["Laravel", "Livewire", "Alpine.js"],
-    title: "Project Management SaaS",
-    desc: "A Kanban-based project management tool with real-time collaboration, role-based permissions, and PDF report generation.",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 3,
-    categories: ["react"],
-    emoji: "💬",
-    num: "03",
-    thumbBg: "linear-gradient(135deg,#0f0f28,#1a1a40)",
-    accentBar: "linear-gradient(90deg,#0066FF,#6644ff)",
-    tags: ["Next.js", "Socket.io", "Redis"],
-    title: "Real-Time Chat App",
-    desc: "A real-time messaging application with group chats, file sharing, emoji reactions, and end-to-end encryption support.",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 4,
-    categories: ["laravel", "fullstack"],
-    emoji: "🏥",
-    num: "04",
-    thumbBg: "linear-gradient(135deg,#1f0f0f,#2a1414)",
-    accentBar: "linear-gradient(90deg,#ff4444,#ff8800)",
-    tags: ["Laravel", "React", "PostgreSQL"],
-    title: "Hospital Management System",
-    desc: "A comprehensive HMS covering patient records, doctor scheduling, pharmacy, billing, and reporting modules.",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 5,
-    categories: ["react"],
-    emoji: "📊",
-    num: "05",
-    thumbBg: "linear-gradient(135deg,#1a0f28,#2a1a44)",
-    accentBar: "linear-gradient(90deg,#a855f7,#ec4899)",
-    tags: ["Next.js", "Tailwind", "Chart.js"],
-    title: "Analytics Dashboard",
-    desc: "A responsive analytics dashboard with interactive charts, dark/light mode, and real-time data polling via REST APIs.",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 6,
-    categories: ["fullstack", "laravel"],
-    emoji: "🎓",
-    num: "06",
-    thumbBg: "linear-gradient(135deg,#0f1a1a,#0a2828)",
-    accentBar: "linear-gradient(90deg,#00D9A3,#0066FF)",
-    tags: ["Laravel", "Inertia.js", "Vue"],
-    title: "LMS Platform",
-    desc: "A learning management system with video courses, quizzes, certificates, progress tracking, and payment integration.",
-    liveUrl: "#",
+    tags: ["Laravel", "Laravel Blade", "JQuery", "Ajax"],
+    title: "Bajrang steel",
+    desc: "Bajrang Steel is a trusted steel supplier offering high-quality, durable steel products for construction and industrial use with a focus on strength, reliability, and timely delivery.",
+    liveUrl: "https://bajrangsteel.com.np",
     githubUrl: "#",
   },
 ];
