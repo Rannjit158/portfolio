@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ranjitrajbanshi.com.np/sitemap.xml
