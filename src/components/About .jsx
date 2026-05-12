@@ -63,13 +63,13 @@ export default function About() {
             </div>
 
             {/* BUTTON */}
-            <a
+            {/* <a
               href={personalInfo.cvLink}
               className="inline-flex items-center gap-2 bg-[var(--accent)] text-black px-6 py-3 rounded-lg font-medium hover:opacity-90 transition"
             >
               <i className="fas fa-download"></i>
               Download CV
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
