@@ -60,8 +60,8 @@ export default function Hero() {
             </div>
 
             {/* Title */}
-            <h1 className="font-extrabold leading-tight text-[clamp(48px,6vw,82px)] mb-6">
-              <h1>Hi I'm Ranjit Rajbanshi</h1> <br />
+            <h1 className="font-bold leading-tight text-[clamp(48px,6vw,82px)] mb-2">
+              <h1>Hi I'm Ranjit Rajbanshi</h1>
               <span ref={typedRef} className="text-[var(--accent)]">
                 Laravel
               </span>{" "}
