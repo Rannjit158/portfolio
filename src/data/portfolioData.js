@@ -11,7 +11,7 @@ import {
 
 export const personalInfo = {
   name: "Ranjit Rajbanshi",
-  heroImage: "/image/ranjit.jpeg",
+  heroImage: "/image/ranjit.webp",
   initials: "RR",
   logo: "Ranjit",
   role: "Laravel · React · Next.js",
@@ -133,7 +133,7 @@ export const projects = [
     id: 1,
     featured: true,
     categories: ["fullstack", "laravel"],
-    image: "image/pearl.png",
+    image: "image/pearl.webp",
     thumbBg: "linear-gradient(135deg,#0a1628,#0d2240)",
     accentBar: "linear-gradient(90deg,#00D9A3,#0066FF)",
     tags: ["Laravel", "Laravel Blade", "MySQL"],
@@ -145,7 +145,7 @@ export const projects = [
   {
     id: 2,
     categories: ["fullstack", "laravel"],
-    image: "image/bajrang.png",
+    image: "image/bajrang.webp",
     num: "02",
     thumbBg: "linear-gradient(135deg,#0f1f0f,#142814)",
     accentBar: "linear-gradient(90deg,#00D9A3,#00ff88)",
