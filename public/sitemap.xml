@@ -11,14 +11,37 @@
 
   <!-- Contact section (optional anchor) -->
   <url>
-    <loc>https://ranjitrajbanshi.com.np/#contact</loc>
+    <loc>https://ranjitrajbanshi.com.np/#about</loc>
     <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
   </url>
 
-  <!-- Projects section (optional anchor) -->
-  <url>
+  <url> 
     <loc>https://ranjitrajbanshi.com.np/#projects</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://ranjitrajbanshi.com.np/#skills</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://ranjitrajbanshi.com.np/#experiance</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+   <url>
+    <loc>https://ranjitrajbanshi.com.np/#services</loc>
+    <lastmod>2026-05-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ranjitrajbanshi.com.np/#contact</loc>
     <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
   </url>
