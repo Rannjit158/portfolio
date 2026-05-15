@@ -27,11 +27,11 @@ export const personalInfo = {
   status: "Open to work",
   cvLink: "#",
   email: "ranjitrajbanshi58@email.com",
-  linkedin: "https://linkedin.com",
+  linkedin: "https://linkedin.com/in/ranjit-rajbanshi-a62856343/",
   linkedinHandle: "linkedin.com/in/ranjit-rajbanshi-a62856343/",
-  github: "https://github.com",
+  github: "https://github.com/Rannjit158",
   githubHandle: "github.com/Rannjit158",
-  whatsapp: "https://wa.me/977XXXXXXXXXX",
+  whatsapp: "https://wa.me/9824301087",
   whatsappHandle: "9824301087",
 
   // EmailJS credentials
