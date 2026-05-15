@@ -14,8 +14,8 @@ export const personalInfo = {
   heroImage: "/image/ranjit.webp",
   initials: "RR",
   logo: "Ranjit",
-  role: "Laravel · React · Next.js",
-  tagline: "Available for freelance work",
+  role: "Laravel · React ",
+  tagline: "Available for work",
   description:
     "I craft high-performance web applications using Laravel, React, and Next.js. Passionate about clean code, beautiful UI, and scalable architecture.",
   aboutDesc1:
@@ -57,7 +57,6 @@ export const typedPhrases = [
   "Laravel Developer",
   "React Developer",
   "Full-Stack Dev",
-  "UI/UX Enthusiast",
 ];
 
 export const navLinks = [
