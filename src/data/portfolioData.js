@@ -17,7 +17,7 @@ export const personalInfo = {
   role: "Laravel · React ",
   tagline: "Available for work",
   description:
-    "I craft high-performance web applications using Laravel, React, and Next.js. Passionate about clean code, beautiful UI, and scalable architecture.",
+    "I craft high-performance web applications using Laravel and React. Passionate about clean code, beautiful UI, and scalable architecture.",
   aboutDesc1:
     "I'm a passionate Full-Stack Developer based in Nepal, specialising in building robust web applications. With expertise spanning from UI design in Figma to backend APIs in Laravel, I deliver complete digital solutions that delight users and power businesses.",
   aboutDesc2:
