@@ -139,7 +139,7 @@ export const projects = [
     tags: ["Laravel", "Laravel Blade", "MySQL"],
     title: "Pearl Makeup & Nil Studio",
     desc: "Perl Make Up Studio offers professional makeup services for bridal and special occasions, enhancing your natural beauty with flawless results.",
-    liveUrl: "https://pearlmakeupstudio.com/home",
+    liveUrl: "https://pearlmakeupstudio.com",
     githubUrl: "#",
   },
   {
