@@ -82,7 +82,7 @@ export default function Contact() {
           from_name: form.name,
           from_email: form.email,
 
-          reply_to: form.email, // ✅ IMPORTANT FIX
+          reply_to: form.email, 
 
           subject: form.subject,
           message: form.message,
@@ -169,7 +169,7 @@ export default function Contact() {
                   label="Your Name"
                   name="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Ram Prasad"
                   value={form.name}
                   onChange={handleChange}
                 />
@@ -178,7 +178,7 @@ export default function Contact() {
                   label="Email Address"
                   name="email"
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="ram@example.com"
                   value={form.email}
                   onChange={handleChange}
                 />
