@@ -184,19 +184,19 @@ export const projects = [
 ];
 
 export const workHistory = [
-  {
-    date: "2025 — Present",
-    title: "Laravel Developer",
-    company: "Ratoguras Technology Pvt.Ltd · Full-time",
-    desc:"Developing scalable web applications and backend systems using Laravel, building REST APIs, implementing business logic, managing databases, and integrating modern frontend technologies.",
-    techs: ["Laravel", "React"],
-  },
+  // {
+  //   date: "2025 — Present",
+  //   title: "Laravel Developer",
+  //   company: "Ratoguras Technology Pvt.Ltd · Full-time",
+  //   desc:"Developing scalable web applications and backend systems using Laravel, building REST APIs, implementing business logic, managing databases, and integrating modern frontend technologies.",
+  //   techs: ["Laravel", "React", "MySQL"],
+  // },
   {
     date: "2025-present",
     title: "Full-Stack Developer",
     company: "Ratoguras Technology Pvt.Ltd · Full-time",
     desc: "Building and maintaining full-stack web applications, developing responsive user interfaces, integrating Laravel APIs, and delivering reliable solutions tailored to client requirements.",
-    techs: ["Laravel", "Vue.js", "MySQL"],
+    techs: ["Laravel", "React", "MySQL"],
   },
 ];
 
