@@ -16,6 +16,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Framer's useScroll() measures the scroll container; `position: static`
+     on the root element makes it warn that offsets may be miscalculated. */
+  position: relative;
 }
 
 :root {

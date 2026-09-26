@@ -139,12 +139,14 @@ export default function Projects() {
           </div>
         </Reveal>
 
-        {/* GRID */}
-        <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* GRID — cards own their own `layout` so filter changes animate.
+            The wrapper stays layout-free: a `layout` parent makes Framer
+            force-manage `opacity` and write `opacity: undefined` into the DOM. */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
             <ProjectCard key={p.id} project={p} active={active} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
