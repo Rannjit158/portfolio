@@ -11,7 +11,8 @@ import {
 
 export const personalInfo = {
   name: "Ranjit Rajbanshi",
-  heroImage: "/image/ranjit.webp",
+  heroImage: "/image/ranjit.png",
+  heroImageFallback: "/image/ranjit.webp",
   initials: "RR",
   logo: "Ranjit",
   role: "Laravel · React ",
@@ -57,6 +58,256 @@ export const typedPhrases = [
   "Laravel Developer",
   "React Developer",
   "Full-Stack Dev",
+];
+
+// Auto-cycling snippets shown in the hero code editor card.
+// Token kinds: c comment · kw keyword · fn function/id-blue · s string
+//              p property · b boolean/accent · t plain text
+export const heroCodeSnippets = [
+  {
+    file: "developer.js",
+    cmd: "npm run dev",
+    lines: [
+      [{ t: "c", v: "// Full-Stack Developer · Nepal" }],
+      [
+        { t: "kw", v: "const" },
+        { t: "t", v: " " },
+        { t: "fn", v: "dev" },
+        { t: "t", v: " = {" },
+      ],
+      [
+        { t: "t", v: "  " },
+        { t: "p", v: "name" },
+        { t: "t", v: ": " },
+        { t: "s", v: '"Ranjit Rajbanshi"' },
+        { t: "t", v: "," },
+      ],
+      [
+        { t: "t", v: "  " },
+        { t: "p", v: "stack" },
+        { t: "t", v: ": [" },
+        { t: "s", v: '"Laravel"' },
+        { t: "t", v: ", " },
+        { t: "s", v: '"React"' },
+        { t: "t", v: ", " },
+        { t: "s", v: '"MySQL"' },
+        { t: "t", v: "]," },
+      ],
+      [
+        { t: "t", v: "  " },
+        { t: "p", v: "hireable" },
+        { t: "t", v: ": " },
+        { t: "b", v: "true" },
+        { t: "t", v: ";" },
+      ],
+      [{ t: "t", v: "};" }],
+      [{ t: "t", v: "" }],
+      [
+        { t: "fn", v: "console" },
+        { t: "t", v: ".log(" },
+        { t: "s", v: '"Let\'s build something great"' },
+        { t: "t", v: ");" },
+      ],
+    ],
+  },
+  {
+    file: "routes/web.php",
+    cmd: "php artisan serve",
+    lines: [
+      [{ t: "c", v: "// Laravel route definition" }],
+      [
+        { t: "fn", v: "Route" },
+        { t: "t", v: "::get(" },
+        { t: "s", v: '"/"' },
+        { t: "t", v: ", " },
+        { t: "fn", v: "HomeController" },
+        { t: "t", v: "::class)->" },
+        { t: "p", v: "name" },
+        { t: "t", v: "(" },
+        { t: "s", v: '"home"' },
+        { t: "t", v: ");" },
+      ],
+      [{ t: "t", v: "" }],
+      [
+        { t: "fn", v: "Route" },
+        { t: "t", v: "::prefix(" },
+        { t: "s", v: '"api/v1"' },
+        { t: "t", v: ")" },
+      ],
+      [
+        { t: "t", v: "  ->" },
+        { t: "p", v: "middleware" },
+        { t: "t", v: "(" },
+        { t: "s", v: '"auth:sanctum"' },
+        { t: "t", v: ")" },
+      ],
+      [
+        { t: "t", v: "  ->" },
+        { t: "fn", v: "group" },
+        { t: "t", v: "(function () {" },
+      ],
+      [
+        { t: "t", v: "    " },
+        { t: "fn", v: "Route" },
+        { t: "t", v: "::apiResource(" },
+        { t: "s", v: '"posts"' },
+        { t: "t", v: ", " },
+        { t: "fn", v: "PostController" },
+        { t: "t", v: "::class);" },
+      ],
+      [{ t: "t", v: "  });" }],
+    ],
+  },
+  {
+    file: "HomePage.jsx",
+    cmd: "npm run build",
+    lines: [
+      [{ t: "c", v: "// React functional component" }],
+      [
+        { t: "kw", v: "const" },
+        { t: "t", v: " " },
+        { t: "fn", v: "HomePage" },
+        { t: "t", v: " = () => {" },
+      ],
+      [
+        { t: "t", v: "  " },
+        { t: "kw", v: "const" },
+        { t: "t", v: " [" },
+        { t: "p", v: "user" },
+        { t: "t", v: ", " },
+        { t: "p", v: "setUser" },
+        { t: "t", v: "] = " },
+        { t: "fn", v: "useState" },
+        { t: "t", v: "(null);" },
+      ],
+      [{ t: "t", v: "" }],
+      [
+        { t: "t", v: "  " },
+        { t: "fn", v: "useEffect" },
+        { t: "t", v: "(() => {" },
+      ],
+      [
+        { t: "t", v: "    " },
+        { t: "fn", v: "fetchUser" },
+        { t: "t", v: "().then(" },
+        { t: "p", v: "setUser" },
+        { t: "t", v: ");" },
+      ],
+      [{ t: "t", v: "  }, []);" }],
+      [{ t: "t", v: "" }],
+      [
+        { t: "t", v: "  " },
+        { t: "kw", v: "return" },
+        { t: "t", v: " <" },
+        { t: "fn", v: "ProfileCard" },
+        { t: "t", v: " user={user} />;" },
+      ],
+      [{ t: "t", v: "};" }],
+      [
+        { t: "kw", v: "export" },
+        { t: "t", v: " " },
+        { t: "kw", v: "default" },
+        { t: "t", v: " " },
+        { t: "fn", v: "HomePage" },
+        { t: "t", v: ";" },
+      ],
+    ],
+  },
+  {
+    file: "queries.sql",
+    cmd: "mysql -u root portfolio",
+    lines: [
+      [{ t: "c", v: "-- Active users from the last 30 days" }],
+      [
+        { t: "kw", v: "SELECT" },
+        { t: "t", v: " u.id, u." },
+        { t: "p", v: "email" },
+      ],
+      [
+        { t: "kw", v: "FROM" },
+        { t: "t", v: " users u" },
+      ],
+      [
+        { t: "kw", v: "JOIN" },
+        { t: "t", v: " orders o " },
+        { t: "kw", v: "ON" },
+        { t: "t", v: " o.user_id = u.id" },
+      ],
+      [
+        { t: "kw", v: "WHERE" },
+        { t: "t", v: " u." },
+        { t: "p", v: "status" },
+        { t: "t", v: " = " },
+        { t: "s", v: '"active"' },
+      ],
+      [
+        { t: "t", v: "  " },
+        { t: "kw", v: "AND" },
+        { t: "t", v: " o.created_at >= " },
+        { t: "fn", v: "NOW" },
+        { t: "t", v: "() - " },
+        { t: "kw", v: "INTERVAL" },
+        { t: "t", v: " 30 " },
+        { t: "kw", v: "DAY" },
+      ],
+      [
+        { t: "kw", v: "GROUP BY" },
+        { t: "t", v: " u.id;" },
+      ],
+    ],
+  },
+  {
+    file: "~/terminal",
+    cmd: "sh deploy.sh",
+    lines: [
+      [
+        { t: "b", v: "$" },
+        { t: "t", v: " git init && git add ." },
+      ],
+      [
+        { t: "b", v: "$" },
+        { t: "t", v: " git commit -m " },
+        { t: "s", v: '"init: portfolio"' },
+      ],
+      [
+        { t: "b", v: "$" },
+        { t: "t", v: " composer create-project laravel app" },
+      ],
+      [
+        { t: "b", v: "$" },
+        { t: "t", v: " php artisan migrate --seed" },
+      ],
+      [
+        { t: "b", v: "$" },
+        { t: "t", v: " npm run build" },
+      ],
+      [{ t: "c", v: "✓ deployed to production" }],
+    ],
+  },
+  {
+    file: "styles.css",
+    cmd: "tailwindcss watch",
+    lines: [
+      [{ t: "c", v: "/* Glassmorphic hero panel */" }],
+      [{ t: "t", v: ".hero-panel {" }],
+      [
+        { t: "t", v: "  " },
+        { t: "p", v: "@apply" },
+        { t: "t", v: " rounded-2xl border border-white/10;" },
+      ],
+      [{ t: "t", v: "  " }, { t: "p", v: "bg-white/5" }, { t: "t", v: " backdrop-blur-md;" }],
+      [{ t: "t", v: "}" }],
+      [{ t: "t", v: "" }],
+      [
+        { t: "kw", v: "@media" },
+        { t: "t", v: " (" },
+        { t: "p", v: "prefers-reduced-motion" },
+        { t: "t", v: ": reduce) {" },
+      ],
+      [{ t: "t", v: "  .hero-panel { animation: none; }" }],
+      [{ t: "t", v: "}" }],
+    ],
+  },
 ];
 
 export const navLinks = [

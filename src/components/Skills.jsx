@@ -1,79 +1,84 @@
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { skillCategories } from "../data/portfolioData";
+import { Stagger, StaggerItem } from "./animations/Stagger";
+import Reveal from "./animations/Reveal";
+import AnimatedCard from "./ui/AnimatedCard";
 
 function SkillCard({ cat }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  // Intersection Observer
+  // Intersection Observer triggers the skill bars.
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        }
+        if (entry.isIntersecting) setVisible(true);
       },
       { threshold: 0.3 },
     );
-
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const Icon = cat.icon; // Get React Icon component
+  const Icon = cat.icon;
 
   return (
-    <div
-      ref={ref}
-      className="group relative bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(0,217,163,0.3)] hover:bg-[var(--card-h)] overflow-hidden"
-    >
-      {/* Top Gradient Bar */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] opacity-0 group-hover:opacity-100 transition" />
+    <StaggerItem className="h-full">
+      <AnimatedCard tilt={5} className="h-full">
+        <div
+          ref={ref}
+          className="group relative h-full overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] p-8 transition-all duration-300 hover:border-[rgba(0,217,163,0.3)] hover:bg-[var(--card-h)]"
+        >
+          {/* Top gradient bar */}
+          <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-      {/* Icon */}
-      <div className="w-12 h-12 rounded-xl bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] flex items-center justify-center text-xl text-[var(--accent)] mb-5">
-        {Icon && <Icon size={24} />}
-      </div>
+          {/* Icon */}
+          <motion.div
+            className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(0,217,163,0.2)] bg-[rgba(0,217,163,0.1)] text-xl text-[var(--accent)]"
+            whileHover={{ scale: 1.08, rotate: -4 }}
+            transition={{ type: "spring", stiffness: 300, damping: 16 }}
+          >
+            {Icon && <Icon size={24} />}
+          </motion.div>
 
-      {/* Title */}
-      <h3 className="text-lg font-bold mb-5">{cat.title}</h3>
+          <h3 className="mb-5 text-lg font-bold">{cat.title}</h3>
 
-      {/* CONTENT */}
-      {cat.type === "bars" ? (
-        <div className="flex flex-col gap-4">
-          {cat.items.map((item) => (
-            <div key={item.name}>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">{item.name}</span>
-                <span className="text-xs font-mono text-[var(--accent)]">
-                  {item.pct}%
-                </span>
-              </div>
-
-              <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] rounded-full transition-all duration-[1200ms]"
-                  style={{
-                    width: visible ? `${item.pct}%` : "0%",
-                  }}
-                />
-              </div>
+          {cat.type === "bars" ? (
+            <div className="flex flex-col gap-4">
+              {cat.items.map((item) => (
+                <div key={item.name}>
+                  <div className="mb-1 flex justify-between">
+                    <span className="text-sm font-medium">{item.name}</span>
+                    <span className="font-mono text-xs text-[var(--accent)]">
+                      {item.pct}%
+                    </span>
+                  </div>
+                  <div className="h-1 overflow-hidden rounded-full bg-white/10">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)]"
+                      initial={{ width: 0 }}
+                      animate={{ width: visible ? `${item.pct}%` : "0%" }}
+                      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <Stagger className="flex flex-wrap gap-2" staggerChildren={0.05} amount={0.1}>
+              {cat.items.map((pill) => (
+                <StaggerItem key={pill} variant="scale">
+                  <span className="inline-block rounded-full border border-[var(--border)] bg-white/5 px-3 py-1 font-mono text-xs text-[var(--muted)] transition-colors duration-300 hover:border-[rgba(0,217,163,0.4)] hover:text-[var(--accent)]">
+                    {pill}
+                  </span>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          )}
         </div>
-      ) : (
-        <div className="flex flex-wrap gap-2">
-          {cat.items.map((pill) => (
-            <span
-              key={pill}
-              className="px-3 py-1 text-xs rounded-full border border-[var(--border)] bg-white/5 text-[var(--muted)] font-mono"
-            >
-              {pill}
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
+      </AnimatedCard>
+    </StaggerItem>
   );
 }
 
@@ -81,28 +86,30 @@ export default function Skills() {
   return (
     <section id="skills" className="py-28 bg-[var(--bg2)]">
       <div className="container mx-auto px-6">
-        {/* HEADER */}
-        <div className="text-center mb-20">
-          <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-mono">
-            My Toolkit
-          </span>
-
-          <h2 className="text-4xl font-extrabold mt-3 mb-4">
-            Skills & Technologies
-          </h2>
-
-          <p className="text-[var(--muted)] max-w-xl mx-auto">
-            A curated set of tools and technologies I use to build world-class
-            applications from concept to deployment.
-          </p>
+        <div className="mb-20 text-center">
+          <Reveal>
+            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
+              My Toolkit
+            </span>
+          </Reveal>
+          <Reveal variant="blur" delay={0.05}>
+            <h2 className="mb-4 mt-3 text-4xl font-extrabold">
+              Skills <span className="text-gradient">&</span> Technologies
+            </h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mx-auto max-w-xl text-[var(--muted)]">
+              A curated set of tools and technologies I use to build world-class
+              applications from concept to deployment.
+            </p>
+          </Reveal>
         </div>
 
-        {/* GRID */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Stagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.08}>
           {skillCategories.map((cat) => (
             <SkillCard key={cat.title} cat={cat} />
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

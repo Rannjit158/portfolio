@@ -1,5 +1,5 @@
-// components/Contact.jsx
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { personalInfo } from "../data/portfolioData";
 import emailjs from "@emailjs/browser";
 import {
@@ -10,6 +10,10 @@ import {
   FaPaperPlane,
   FaSpinner,
 } from "react-icons/fa";
+import Reveal from "./animations/Reveal";
+import { Stagger, StaggerItem } from "./animations/Stagger";
+import AnimatedCard from "./ui/AnimatedCard";
+import AnimatedButton from "./ui/AnimatedButton";
 
 const channels = [
   {
@@ -40,6 +44,25 @@ const channels = [
     target: "_blank",
   },
 ];
+
+const STATUS_MSG = {
+  success: (
+    <div className="rounded-lg border border-[rgba(0,217,163,0.3)] bg-[rgba(0,217,163,0.1)] px-4 py-3 font-mono text-sm text-[var(--accent)]">
+      ✓ Message sent! I'll get back to you within 24 hours.
+    </div>
+  ),
+  error: (
+    <div className="rounded-lg border border-[rgba(255,80,80,0.3)] bg-[rgba(255,80,80,0.1)] px-4 py-3 font-mono text-sm text-red-400">
+      ✗ Failed to send. Please email me directly.
+    </div>
+  ),
+  limit: (
+    <div className="rounded-lg border border-[rgba(255,80,80,0.3)] bg-[rgba(255,80,80,0.1)] px-4 py-3 font-mono text-sm text-red-400">
+      🚫 Limit reached: You can only send 3 messages per day. Try again
+      tomorrow.
+    </div>
+  ),
+};
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -81,9 +104,7 @@ export default function Contact() {
         {
           from_name: form.name,
           from_email: form.email,
-
-          reply_to: form.email, 
-
+          reply_to: form.email,
           subject: form.subject,
           message: form.message,
           to_name: personalInfo.name,
@@ -91,7 +112,6 @@ export default function Contact() {
         personalInfo.emailjsPublicKey,
       );
 
-      // increase limit after success
       localStorage.setItem(storageKey, count + 1);
 
       setStatus("success");
@@ -105,66 +125,68 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28 relative z-10">
+    <section id="contact" className="relative z-10 py-28">
       <div className="container mx-auto px-6">
         {/* HEADER */}
-        <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-widest text-[var(--muted)] font-mono">
-            Get In Touch
-          </span>
-
-          <h2 className="text-4xl font-extrabold mt-3 mb-4">
-            Let's build something{" "}
-            <span className="text-[var(--accent)]">amazing together</span>
-          </h2>
-
-          <p className="text-[var(--muted)] max-w-xl mx-auto">
-            Have a project in mind? I'd love to hear about it. Send me a message
-            and I'll get back to you within 24 hours.
-          </p>
+        <div className="mb-16 text-center">
+          <Reveal>
+            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
+              Get In Touch
+            </span>
+          </Reveal>
+          <Reveal variant="blur" delay={0.05}>
+            <h2 className="mb-4 mt-3 text-4xl font-extrabold">
+              Let's build something{" "}
+              <span className="text-gradient">amazing together</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mx-auto max-w-xl text-[var(--muted)]">
+              Have a project in mind? I'd love to hear about it. Send me a
+              message and I'll get back to you within 24 hours.
+            </p>
+          </Reveal>
         </div>
 
         {/* GRID */}
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid gap-12 lg:grid-cols-2">
           {/* LEFT */}
-          <div className="flex flex-col gap-6">
+          <Stagger className="flex flex-col gap-6" staggerChildren={0.09}>
             {channels.map((ch) => {
               const Icon = ch.icon;
               return (
-                <a
-                  key={ch.label}
-                  href={ch.href}
-                  target={ch.target}
-                  rel="noreferrer"
-                  className="
-                    flex items-center gap-4 p-5 rounded-xl
-                    border border-[var(--border)] bg-[var(--card)]
-                    transition-all duration-300
-                    hover:bg-[var(--card-h)]
-                    hover:border-[rgba(0,217,163,0.2)]
-                  "
-                >
-                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-[rgba(0,217,163,0.1)] border border-[rgba(0,217,163,0.2)] text-[var(--accent)] text-lg shrink-0">
-                    <Icon size={20} />
-                  </div>
-
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono mb-1">
-                      {ch.label}
-                    </div>
-                    <div className="text-sm font-medium text-[var(--text)]">
-                      {ch.val}
-                    </div>
-                  </div>
-                </a>
+                <StaggerItem key={ch.label}>
+                  <a
+                    href={ch.href}
+                    target={ch.target}
+                    rel="noreferrer"
+                    className="block"
+                  >
+                    <AnimatedCard tilt={4}>
+                      <div className="flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 transition-all duration-300 hover:border-[rgba(0,217,163,0.2)] hover:bg-[var(--card-h)]">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-[rgba(0,217,163,0.2)] bg-[rgba(0,217,163,0.1)] text-lg text-[var(--accent)]">
+                          <Icon size={20} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="mb-1 font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
+                            {ch.label}
+                          </div>
+                          <div className="truncate text-sm font-medium text-[var(--text)]">
+                            {ch.val}
+                          </div>
+                        </div>
+                      </div>
+                    </AnimatedCard>
+                  </a>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
 
           {/* RIGHT */}
-          <div>
+          <Reveal delay={0.1} variant="slideRight">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <InputField
                   label="Your Name"
                   name="name"
@@ -201,29 +223,26 @@ export default function Contact() {
                 onChange={handleChange}
               />
 
-              {status === "success" && (
-                <div className="px-4 py-3 rounded-lg text-sm font-mono border bg-[rgba(0,217,163,0.1)] border-[rgba(0,217,163,0.3)] text-[var(--accent)]">
-                  ✓ Message sent! I'll get back to you within 24 hours.
-                </div>
-              )}
+              <AnimatePresence mode="wait">
+                {status && status !== "sending" && (
+                  <motion.div
+                    key={status}
+                    initial={{ opacity: 0, y: 8, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                    exit={{ opacity: 0, y: -8, height: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {STATUS_MSG[status]}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              {status === "error" && (
-                <div className="px-4 py-3 rounded-lg text-sm font-mono border bg-[rgba(255,80,80,0.1)] border-[rgba(255,80,80,0.3)] text-red-400">
-                  ✗ Failed to send. Please email me directly.
-                </div>
-              )}
-
-              {status === "limit" && (
-                <div className="px-4 py-3 rounded-lg text-sm font-mono border bg-[rgba(255,80,80,0.1)] border-[rgba(255,80,80,0.3)] text-red-400">
-                  🚫 Limit reached: You can only send 3 messages per day. Try
-                  again tomorrow.
-                </div>
-              )}
-
-              <button
+              <AnimatedButton
                 type="submit"
+                magnetic={false}
                 disabled={status === "sending"}
-                className="btn-primary inline-flex items-center justify-center gap-2 w-full"
+                wrapperClassName="w-full"
+                className="w-full justify-center"
               >
                 {status === "sending" ? (
                   <>
@@ -234,9 +253,9 @@ export default function Contact() {
                     <FaPaperPlane /> Send Message
                   </>
                 )}
-              </button>
+              </AnimatedButton>
             </form>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -247,25 +266,20 @@ export default function Contact() {
 function InputField({ label, name, type, placeholder, value, onChange }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono">
-        {label}
+      <label className="group flex flex-col gap-2">
+        <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--muted)] transition-colors duration-300 group-focus-within:text-[var(--accent)]">
+          {label}
+        </span>
+        <input
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+          className="w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--text)] outline-none transition-all duration-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]"
+        />
       </label>
-      <input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required
-        className="
-          w-full px-4 py-3 rounded-lg
-          bg-[var(--card)] border border-[var(--border)]
-          text-sm text-[var(--text)]
-          outline-none transition-all duration-300
-          focus:border-[var(--accent)]
-          focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]
-        "
-      />
     </div>
   );
 }
@@ -274,24 +288,19 @@ function InputField({ label, name, type, placeholder, value, onChange }) {
 function TextArea({ label, name, placeholder, value, onChange }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-mono">
-        {label}
+      <label className="group flex flex-col gap-2">
+        <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--muted)] transition-colors duration-300 group-focus-within:text-[var(--accent)]">
+          {label}
+        </span>
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+          className="min-h-[140px] w-full resize-none rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--text)] outline-none transition-all duration-300 focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]"
+        />
       </label>
-      <textarea
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required
-        className="
-          w-full px-4 py-3 rounded-lg min-h-[140px] resize-none
-          bg-[var(--card)] border border-[var(--border)]
-          text-sm text-[var(--text)]
-          outline-none transition-all duration-300
-          focus:border-[var(--accent)]
-          focus:ring-2 focus:ring-[rgba(0,217,163,0.15)]
-        "
-      />
     </div>
   );
 }

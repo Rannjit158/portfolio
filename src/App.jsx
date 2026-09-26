@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import "./index.css";
-import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import About from "./components/About ";
+import About from "./components/About";
 import Contact from "./components/Contact";
 import Hero from "./components/Hero";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Experiance from "./components/Experiance";
 import Services from "./components/Services";
-// import CustomCursor from "./components/CustomCursor";
-// import { useReveal } from "./hooks/useReveal";
+import CustomCursor from "./components/CustomeCursor";
+import ScrollProgress from "./components/ui/ScrollProgress";
 import { personalInfo } from "./data/portfolioData";
 
 function App() {
@@ -21,22 +21,24 @@ function App() {
     }
   }, []);
 
-  // useReveal();
-
   return (
-    <>
+    <MotionConfig reducedMotion="user">
+      <ScrollProgress />
+      <CustomCursor />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experiance />
-        <Services />
-        <Contact />
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Experiance />
+          <Services />
+          <Contact />
+        </main>
         <Footer />
       </div>
-    </>
+    </MotionConfig>
   );
 }
 

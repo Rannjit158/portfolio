@@ -1,225 +1,171 @@
-// components/Navbar.jsx
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { navLinks, personalInfo } from "../data/portfolioData";
+
+const EASE = [0.22, 1, 0.36, 1];
+
+const links = navLinks;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobile] = useState(false);
-  const [activeSection, setActive] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [active, setActive] = useState("home");
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50);
       const sections = document.querySelectorAll("section[id]");
-      let current = "";
+      let current = "home";
       sections.forEach((s) => {
-        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+        if (window.scrollY >= s.offsetTop - 140) current = s.id;
       });
       setActive(current);
     };
-    window.addEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const close = () => setMobile(false);
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const close = () => setMobileOpen(false);
 
   return (
     <>
-      <nav style={{ ...styles.nav, ...(scrolled ? styles.navScrolled : {}) }}>
-        <div className="container">
-          <div style={styles.inner}>
-            <a href="#home" style={styles.logo}>
+      <motion.nav
+        initial={{ y: -70, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+        className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-500 ${
+          scrolled
+            ? "glass border-b border-[var(--border)]"
+            : "bg-transparent"
+        }`}
+        style={{ padding: scrolled ? "14px 0" : "24px 0" }}
+      >
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between">
+            <a
+              href="#home"
+              onClick={close}
+              className="font-[var(--font-head)] text-[22px] font-extrabold tracking-tight text-[var(--text)] no-underline"
+              style={{ fontFamily: "var(--font-head)" }}
+            >
               {personalInfo.logo}
-              <span style={{ color: "var(--accent)" }}>.</span>
+              <span className="text-[var(--accent)]">.</span>
             </a>
-            <ul style={styles.navLinks}>
-              {navLinks.map((l) => (
-                <li key={l.href}>
+
+            {/* Desktop links */}
+            <ul className="hidden items-center gap-8 md:flex">
+              {links.map((l) => {
+                const isActive = active === l.href.replace("#", "");
+                return (
+                  <li key={l.href} className="relative">
+                    <a
+                      href={l.href}
+                      className={`group font-mono text-[13px] tracking-[0.05em] no-underline transition-colors duration-300 ${
+                        isActive ? "text-[var(--accent)]" : "text-[var(--muted)] hover:text-[var(--text)]"
+                      }`}
+                    >
+                      {l.label}
+                      <span
+                        className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-[var(--accent)] transition-transform duration-300 ease-out ${
+                          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                        }`}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="flex items-center gap-4">
+              <a
+                href="#contact"
+                className="hidden rounded-lg bg-[var(--accent)] px-[22px] py-[10px] font-mono text-[12px] font-medium tracking-[0.08em] text-black no-underline transition-all duration-300 hover:-translate-y-px hover:bg-[#00f2b8] hover:shadow-[0_8px_24px_rgba(0,217,163,0.35)] md:inline-block"
+              >
+                LET'S TALK
+              </a>
+
+              {/* Hamburger */}
+              <button
+                onClick={() => setMobileOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={mobileOpen}
+                className="flex cursor-pointer flex-col gap-[5px] border-none bg-transparent p-1 md:hidden"
+              >
+                <span className="block h-[2px] w-6 rounded bg-[var(--text)]" />
+                <span className="block h-[2px] w-[18px] self-end rounded bg-[var(--accent)]" />
+                <span className="block h-[2px] w-6 rounded bg-[var(--text)]" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[110] flex flex-col items-center justify-center gap-8 bg-[rgba(8,12,16,0.97)] backdrop-blur-xl"
+          >
+            <button
+              onClick={close}
+              aria-label="Close menu"
+              className="absolute right-6 top-6 cursor-pointer border-none bg-transparent text-[var(--text)]"
+            >
+              <X size={30} />
+            </button>
+
+            <motion.ul
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+              }}
+              className="flex list-none flex-col items-center gap-6 p-0"
+            >
+              {links.map((l) => (
+                <motion.li
+                  key={l.href}
+                  variants={{
+                    hidden: { opacity: 0, y: 24 },
+                    show: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.55, ease: EASE },
+                    },
+                  }}
+                >
                   <a
                     href={l.href}
-                    style={{
-                      ...styles.navLink,
-                      color:
-                        activeSection === l.href.replace("#", "")
-                          ? "var(--accent)"
-                          : "var(--muted)",
-                    }}
-                    onMouseEnter={(e) => (e.target.style.color = "var(--text)")}
-                    onMouseLeave={(e) =>
-                      (e.target.style.color =
-                        activeSection === l.href.replace("#", "")
-                          ? "var(--accent)"
-                          : "var(--muted)")
-                    }
+                    onClick={close}
+                    className={`font-[var(--font-head)] text-[30px] font-bold no-underline transition-colors duration-300 ${
+                      active === l.href.replace("#", "")
+                        ? "text-[var(--accent)]"
+                        : "text-[var(--text)] hover:text-[var(--accent)]"
+                    }`}
+                    style={{ fontFamily: "var(--font-head)" }}
                   >
                     {l.label}
                   </a>
-                </li>
+                </motion.li>
               ))}
-            </ul>
-            <a
-              href="#contact"
-              style={styles.cta}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#00f2b8";
-                e.currentTarget.style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "var(--accent)";
-                e.currentTarget.style.transform = "";
-              }}
-            >
-              LET'S TALK
-            </a>
-            <button
-              style={styles.hamburger}
-              onClick={() => setMobile(true)}
-              aria-label="Menu"
-            >
-              <span style={styles.hLine}></span>
-              <span style={styles.hLine}></span>
-              <span style={styles.hLine}></span>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile Nav */}
-      <div
-        style={{
-          ...styles.mobileNav,
-          transform: mobileOpen ? "translateX(0)" : "translateX(100%)",
-        }}
-      >
-        <button style={styles.mobileClose} onClick={close}>
-          <i className="fas fa-times"></i>
-        </button>
-        {[{ href: "#home", label: "Home" }, ...navLinks].map((l) => (
-          <a
-            key={l.href}
-            href={l.href}
-            style={styles.mobileLink}
-            onClick={close}
-            onMouseEnter={(e) => (e.target.style.color = "var(--accent)")}
-            onMouseLeave={(e) => (e.target.style.color = "var(--text)")}
-          >
-            {l.label}
-          </a>
-        ))}
-      </div>
+            </motion.ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
-
-const styles = {
-  nav: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 100,
-    padding: "20px 0",
-    transition: "all 0.4s",
-  },
-  navScrolled: {
-    background: "rgba(8,12,16,0.9)",
-    backdropFilter: "blur(20px)",
-    borderBottom: "1px solid var(--border)",
-    padding: "14px 0",
-  },
-  inner: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  logo: {
-    fontFamily: "var(--font-head)",
-    fontSize: 22,
-    fontWeight: 800,
-    color: "var(--text)",
-    textDecoration: "none",
-    letterSpacing: "-0.02em",
-  },
-  navLinks: {
-    display: "flex",
-    alignItems: "center",
-    gap: 36,
-    listStyle: "none",
-    "@media (max-width: 768px)": { display: "none" },
-  },
-  navLink: {
-    fontFamily: "var(--font-mono)",
-    fontSize: 13,
-    letterSpacing: "0.05em",
-    textDecoration: "none",
-    transition: "color 0.3s",
-  },
-  cta: {
-    fontFamily: "var(--font-mono)",
-    fontSize: 12,
-    letterSpacing: "0.08em",
-    color: "var(--bg)",
-    background: "var(--accent)",
-    padding: "10px 22px",
-    borderRadius: 8,
-    textDecoration: "none",
-    transition: "all 0.3s",
-    fontWeight: 500,
-  },
-  hamburger: {
-    display: "none",
-    flexDirection: "column",
-    gap: 5,
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    padding: 4,
-  },
-  hLine: {
-    display: "block",
-    width: 24,
-    height: 2,
-    background: "var(--text)",
-    borderRadius: 2,
-  },
-  mobileNav: {
-    position: "fixed",
-    inset: 0,
-    zIndex: 99,
-    background: "rgba(8,12,16,0.98)",
-    backdropFilter: "blur(20px)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 32,
-    transition: "transform 0.4s",
-  },
-  mobileClose: {
-    position: "absolute",
-    top: 24,
-    right: 24,
-    background: "none",
-    border: "none",
-    color: "var(--text)",
-    fontSize: 28,
-    cursor: "pointer",
-  },
-  mobileLink: {
-    fontFamily: "var(--font-head)",
-    fontSize: 32,
-    fontWeight: 700,
-    color: "var(--text)",
-    textDecoration: "none",
-    transition: "color 0.3s",
-  },
-};
-
-// Inject responsive CSS for hamburger / nav-links
-const styleTag = document.createElement("style");
-styleTag.innerHTML = `
-  @media (max-width: 768px) {
-    nav ul, nav a.nav-cta-class { display: none !important; }
-  }
-`;
-document.head.appendChild(styleTag);
