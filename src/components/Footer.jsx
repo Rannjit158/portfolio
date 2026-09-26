@@ -138,14 +138,14 @@ const Footer = () => {
             <span>and lots of coffee</span>
           </div>
 
-          <motion.button
+          {/* <motion.button
             onClick={scrollToTop}
             whileHover={{ y: -3 }}
             whileTap={{ scale: 0.96 }}
             className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[rgba(255,255,255,0.5)] transition-colors duration-300 hover:text-green-500"
           >
             Back to top
-          </motion.button>
+          </motion.button> */}
         </div>
       </div>
     </footer>
