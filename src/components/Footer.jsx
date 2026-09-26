@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Mail, Github, Linkedin, ArrowUp } from "lucide-react";
+import { motion } from "framer-motion";
+import { Heart, Mail, Github, Linkedin, FileDown, FileText } from "lucide-react";
 import Reveal from "./animations/Reveal";
+import useCvDownload from "../hooks/useCvDownload";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [showTop, setShowTop] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { hasFile, download } = useCvDownload();
 
   const socialLinks = [
     {
@@ -48,7 +42,6 @@ const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
   return (
     <footer className="border-t border-[rgba(255,255,255,0.07)] bg-black py-4 text-white">
       <div className="container mx-auto px-6 py-12">
@@ -97,6 +90,15 @@ const Footer = () => {
                     {link.name}
                   </button>
                 ))}
+                <motion.button
+                  onClick={download}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 text-green-500"
+                >
+                  {hasFile ? <FileDown size={15} /> : <FileText size={15} />}
+                  {hasFile ? "Download CV" : "View CV"}
+                </motion.button>
               </div>
             </div>
           </Reveal>
@@ -135,27 +137,17 @@ const Footer = () => {
             </span>
             <span>and lots of coffee</span>
           </div>
+
+          <motion.button
+            onClick={scrollToTop}
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.96 }}
+            className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[rgba(255,255,255,0.5)] transition-colors duration-300 hover:text-green-500"
+          >
+            Back to top
+          </motion.button>
         </div>
       </div>
-
-      {/* Scroll to Top Button */}
-      <AnimatePresence>
-        {showTop && (
-          <motion.button
-            key="scroll-top"
-            onClick={scrollToTop}
-            aria-label="Scroll to top"
-            initial={{ opacity: 0, scale: 0.7, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.7, y: 16 }}
-            whileHover={{ scale: 1.1, y: -3 }}
-            whileTap={{ scale: 0.95 }}
-            className="fixed bottom-8 right-8 z-[90] flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-lg"
-          >
-            <ArrowUp size={20} />
-          </motion.button>
-        )}
-      </AnimatePresence>
     </footer>
   );
 };

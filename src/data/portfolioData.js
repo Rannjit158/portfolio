@@ -26,7 +26,9 @@ export const personalInfo = {
   location: "Nepal 🇳🇵",
   degree: "BSc.CSIT",
   status: "Open to work",
-  cvLink: "#",
+  // Your PDF lives in: public/cv/Ranjit_Rajbanshi_cv.pdf
+  // Every "Download CV" button on the site serves this file directly.
+  cvLink: "/cv/Ranjit_Rajbanshi_cv.pdf",
   email: "ranjitrajbanshi58@email.com",
   linkedin: "https://linkedin.com/in/ranjit-rajbanshi-a62856343/",
   linkedinHandle: "linkedin.com/in/ranjit-rajbanshi-a62856343/",
@@ -41,18 +43,7 @@ export const personalInfo = {
   emailjsTemplateId: "template_gp7w8hm",
 };
 
-export const stats = [
-  { num: "3", suffix: "+", label: "Years Experience" },
-  { num: "40", suffix: "+", label: "Projects Done" },
-  { num: "25", suffix: "+", label: "Happy Clients" },
-];
-
 export const heroBadges = ["Laravel", "React", "Next.js", "Figma", "MySQL"];
-
-export const heroFloatCards = [
-  { label: "Projects Shipped", value: "40+", className: "card1" },
-  { label: "Client Rating", value: "4.9★", className: "card2" },
-];
 
 export const typedPhrases = [
   "Laravel Developer",

@@ -12,6 +12,10 @@ import Experiance from "./components/Experiance";
 import Services from "./components/Services";
 import CustomCursor from "./components/CustomeCursor";
 import ScrollProgress from "./components/ui/ScrollProgress";
+import CursorGlow from "./components/animations/CursorGlow";
+import TechMarquee from "./components/TechMarquee";
+import CvModal from "./components/CvModal";
+import FloatingActions from "./components/FloatingActions";
 import { personalInfo } from "./data/portfolioData";
 
 function App() {
@@ -25,10 +29,12 @@ function App() {
     <MotionConfig reducedMotion="user">
       <ScrollProgress />
       <CustomCursor />
+      <CursorGlow />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <main>
           <Hero />
+          <TechMarquee />
           <About />
           <Skills />
           <Projects />
@@ -38,6 +44,8 @@ function App() {
         </main>
         <Footer />
       </div>
+      <FloatingActions />
+      <CvModal />
     </MotionConfig>
   );
 }

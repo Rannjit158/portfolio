@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useInView, animate, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import {
   personalInfo,
-  stats,
   heroBadges,
-  heroFloatCards,
   typedPhrases,
   heroCodeSnippets,
 } from "../data/portfolioData";
 import useMouseParallax from "../hooks/useMouseParallax";
 import useDeviceLevel from "../hooks/useDeviceLevel";
 import AnimatedButton from "./ui/AnimatedButton";
+import CvButton from "./ui/CvButton";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -42,34 +41,6 @@ function ParallaxLayer({ mouseRef, strength = 12, enabled = true, className, chi
   return (
     <div ref={ref} className={className} style={style}>
       {children}
-    </div>
-  );
-}
-
-// Animated stat counter.
-function Counter({ to, suffix, label }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
-  const reduced = useReducedMotion();
-  const [val, setVal] = useState(reduced ? to : 0);
-
-  useEffect(() => {
-    if (!inView || reduced) return;
-    const controls = animate(0, to, {
-      duration: 1.4,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setVal(Math.round(v)),
-    });
-    return () => controls.stop();
-  }, [inView, to, reduced]);
-
-  return (
-    <div ref={ref}>
-      <div className="text-3xl font-extrabold tracking-tight">
-        {val}
-        <span className="text-[var(--accent)]">{suffix}</span>
-      </div>
-      <div className="text-xs text-[var(--muted)]">{label}</div>
     </div>
   );
 }
@@ -176,10 +147,20 @@ function CodeCard() {
 
 export default function Hero() {
   const typedRef = useRef(null);
+  const sectionRef = useRef(null);
   const mouseRef = useMouseParallax();
   const { isTouch } = useDeviceLevel();
   const reduced = useReducedMotion();
   const interactive = !isTouch && !reduced;
+
+  // The hero drifts away as you scroll — cheap depth without a scroll listener.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
 
   // Typewriter effect (preserved from original implementation).
   useEffect(() => {
@@ -231,6 +212,7 @@ export default function Hero() {
   return (
     <section
       id="home"
+      ref={sectionRef}
       className="relative min-h-screen overflow-hidden pt-28 pb-20"
     >
       {/* LAYER 1: background grid */}
@@ -262,7 +244,10 @@ export default function Hero() {
       </ParallaxLayer>
 
       {/* LAYER 3: content */}
-      <div className="container relative z-10 mx-auto px-6">
+      <motion.div
+        className="container relative z-10 mx-auto px-6"
+        style={reduced ? undefined : { y: contentY, opacity: contentOpacity, scale: contentScale }}
+      >
         <div className="grid items-center gap-16 md:grid-cols-2">
           {/* LEFT */}
           <ParallaxLayer
@@ -349,31 +334,15 @@ export default function Hero() {
                 <AnimatedButton href="#contact" variant="secondary" icon={<ArrowRight size={15} />}>
                   Get In Touch
                 </AnimatedButton>
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.15, duration: 0.6, ease: EASE }}
-                className="flex gap-10"
-              >
-                {stats.map((s) => (
-                  <Counter
-                    key={s.label}
-                    to={parseInt(s.num, 10)}
-                    suffix={s.suffix}
-                    label={s.label}
-                  />
-                ))}
+                <CvButton variant="secondary" />
               </motion.div>
 
               {/* Badge chips */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.3, duration: 0.7, ease: EASE }}
-                className="mt-8 flex flex-wrap gap-2"
+                transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
+                className="mt-10 flex flex-wrap gap-2"
               >
                 {heroBadges.map((b) => (
                   <span
@@ -406,33 +375,32 @@ export default function Hero() {
               <div className="animate-float">
                 <CodeCard />
               </div>
-
-              {/* FLOAT CARDS */}
-              {heroFloatCards.map((fc, i) => (
-                <motion.div
-                  key={fc.label}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.1 + i * 0.12, duration: 0.6, ease: EASE }}
-                  className={`absolute animate-float rounded-lg border border-[var(--border)] bg-[var(--bg2)] px-4 py-3 shadow-lg backdrop-blur-md ${
-                    fc.className === "card1"
-                      ? "-top-6 -left-6 md:-left-10"
-                      : "-bottom-6 -right-6 md:-right-10"
-                  }`}
-                  style={{ animationDelay: `${i * 1.3}s` }}
-                >
-                  <div className="mb-1 font-mono text-[10px] text-[var(--muted)]">
-                    {fc.label}
-                  </div>
-                  <div className="text-xl font-bold text-[var(--accent)]">
-                    {fc.value}
-                  </div>
-                </motion.div>
-              ))}
             </motion.div>
           </ParallaxLayer>
         </div>
-      </div>
+      </motion.div>
+
+      {/* SCROLL CUE */}
+      <motion.a
+        href="#about"
+        aria-label="Scroll to about section"
+        className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 0.8 }}
+        style={reduced ? undefined : { opacity: contentOpacity }}
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--muted)]">
+          Scroll
+        </span>
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="flex h-8 w-[22px] items-start justify-center rounded-full border border-[var(--border)] p-1.5"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+        </motion.span>
+      </motion.a>
     </section>
   );
 }

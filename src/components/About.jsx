@@ -7,6 +7,8 @@ import Reveal from "./animations/Reveal";
 import BlockReveal from "./animations/BlockReveal";
 import { Stagger, StaggerItem } from "./animations/Stagger";
 import AnimatedCard from "./ui/AnimatedCard";
+import CvButton from "./ui/CvButton";
+import { FaFileDownload } from "react-icons/fa";
 
 export default function About() {
   const imgRef = useRef(null);
@@ -180,6 +182,20 @@ export default function About() {
                 </StaggerItem>
               ))}
             </Stagger>
+
+            {/* CV CTA */}
+            <Reveal delay={0.1}>
+              <div className="flex flex-wrap items-center gap-4">
+                <CvButton
+                  variant="primary"
+                  icon={<FaFileDownload size={15} />}
+                  label="Download CV"
+                />
+                <span className="font-mono text-[11px] leading-relaxed text-[var(--muted)]">
+                  PDF · open to work · replies within 24h
+                </span>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

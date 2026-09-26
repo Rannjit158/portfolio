@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, FileDown, FileText } from "lucide-react";
 import { navLinks, personalInfo } from "../data/portfolioData";
+import useCvDownload from "../hooks/useCvDownload";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -11,6 +12,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("home");
+  const { hasFile, download } = useCvDownload();
 
   useEffect(() => {
     const onScroll = () => {
@@ -86,6 +88,15 @@ export default function Navbar() {
             </ul>
 
             <div className="flex items-center gap-4">
+              <button
+                type="button"
+                onClick={download}
+                className="group hidden cursor-pointer items-center gap-2 rounded-lg border border-[var(--border)] px-[18px] py-[10px] font-mono text-[12px] tracking-[0.08em] text-[var(--text)] no-underline transition-all duration-300 hover:-translate-y-px hover:border-[rgba(0,217,163,0.5)] hover:text-[var(--accent)] hover:shadow-[0_8px_24px_rgba(0,217,163,0.18)] md:inline-flex"
+              >
+                {hasFile ? <FileDown size={13} /> : <FileText size={13} />}
+                {hasFile ? "RESUME" : "MY CV"}
+              </button>
+
               <a
                 href="#contact"
                 className="hidden rounded-lg bg-[var(--accent)] px-[22px] py-[10px] font-mono text-[12px] font-medium tracking-[0.08em] text-black no-underline transition-all duration-300 hover:-translate-y-px hover:bg-[#00f2b8] hover:shadow-[0_8px_24px_rgba(0,217,163,0.35)] md:inline-block"
@@ -162,6 +173,30 @@ export default function Navbar() {
                   </a>
                 </motion.li>
               ))}
+
+              <motion.li
+                className="mt-4"
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.55, ease: EASE },
+                  },
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    close();
+                    download();
+                  }}
+                  className="flex cursor-pointer items-center gap-3 rounded-xl border border-[rgba(0,217,163,0.4)] bg-[rgba(0,217,163,0.1)] px-6 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-[var(--accent)]"
+                >
+                  {hasFile ? <FileDown size={15} /> : <FileText size={15} />}
+                  {hasFile ? "Download CV" : "View CV"}
+                </button>
+              </motion.li>
             </motion.ul>
           </motion.div>
         )}

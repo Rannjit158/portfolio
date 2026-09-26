@@ -9,9 +9,12 @@ import {
   FaWhatsapp,
   FaPaperPlane,
   FaSpinner,
+  FaFileDownload,
 } from "react-icons/fa";
+import { CV_OPEN_EVENT } from "../hooks/useCvDownload";
 import Reveal from "./animations/Reveal";
 import { Stagger, StaggerItem } from "./animations/Stagger";
+import SectionHeading from "./ui/SectionHeading";
 import AnimatedCard from "./ui/AnimatedCard";
 import AnimatedButton from "./ui/AnimatedButton";
 
@@ -21,6 +24,12 @@ const channels = [
     icon: FaEnvelope,
     label: "Email",
     val: personalInfo.email,
+  },
+  {
+    icon: FaFileDownload,
+    label: "Curriculum Vitae",
+    val: "View or download my CV",
+    onClick: () => window.dispatchEvent(new CustomEvent(CV_OPEN_EVENT)),
   },
   {
     href: personalInfo.linkedin,
@@ -128,25 +137,12 @@ export default function Contact() {
     <section id="contact" className="relative z-10 py-28">
       <div className="container mx-auto px-6">
         {/* HEADER */}
-        <div className="mb-16 text-center">
-          <Reveal>
-            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
-              Get In Touch
-            </span>
-          </Reveal>
-          <Reveal variant="blur" delay={0.05}>
-            <h2 className="mb-4 mt-3 text-4xl font-extrabold">
-              Let's build something{" "}
-              <span className="text-gradient">amazing together</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mx-auto max-w-xl text-[var(--muted)]">
-              Have a project in mind? I'd love to hear about it. Send me a
-              message and I'll get back to you within 24 hours.
-            </p>
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="Get In Touch"
+          title="Let's build something"
+          accent="amazing together"
+          description="Have a project in mind? I'd love to hear about it. Send me a message and I'll get back to you within 24 hours."
+        />
 
         {/* GRID */}
         <div className="grid gap-12 lg:grid-cols-2">
@@ -154,30 +150,39 @@ export default function Contact() {
           <Stagger className="flex flex-col gap-6" staggerChildren={0.09}>
             {channels.map((ch) => {
               const Icon = ch.icon;
+              const card = (
+                <AnimatedCard tilt={4}>
+                  <div className="flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 transition-all duration-300 hover:border-[rgba(0,217,163,0.2)] hover:bg-[var(--card-h)]">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-[rgba(0,217,163,0.2)] bg-[rgba(0,217,163,0.1)] text-lg text-[var(--accent)]">
+                      <Icon size={20} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="mb-1 font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
+                        {ch.label}
+                      </div>
+                      <div className="truncate text-sm font-medium text-[var(--text)]">
+                        {ch.val}
+                      </div>
+                    </div>
+                  </div>
+                </AnimatedCard>
+              );
+
               return (
                 <StaggerItem key={ch.label}>
-                  <a
-                    href={ch.href}
-                    target={ch.target}
-                    rel="noreferrer"
-                    className="block"
-                  >
-                    <AnimatedCard tilt={4}>
-                      <div className="flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 transition-all duration-300 hover:border-[rgba(0,217,163,0.2)] hover:bg-[var(--card-h)]">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-[rgba(0,217,163,0.2)] bg-[rgba(0,217,163,0.1)] text-lg text-[var(--accent)]">
-                          <Icon size={20} />
-                        </div>
-                        <div className="min-w-0">
-                          <div className="mb-1 font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
-                            {ch.label}
-                          </div>
-                          <div className="truncate text-sm font-medium text-[var(--text)]">
-                            {ch.val}
-                          </div>
-                        </div>
-                      </div>
-                    </AnimatedCard>
-                  </a>
+                  {ch.onClick ? (
+                    <button
+                      type="button"
+                      onClick={ch.onClick}
+                      className="block w-full cursor-pointer text-left"
+                    >
+                      {card}
+                    </button>
+                  ) : (
+                    <a href={ch.href} target={ch.target} rel="noreferrer" className="block">
+                      {card}
+                    </a>
+                  )}
                 </StaggerItem>
               );
             })}

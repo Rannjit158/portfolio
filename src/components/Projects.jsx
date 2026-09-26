@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { projects } from "../data/portfolioData";
 import Reveal from "./animations/Reveal";
+import SectionHeading from "./ui/SectionHeading";
 import AnimatedCard from "./ui/AnimatedCard";
 
 const filters = [
@@ -38,12 +39,19 @@ function ProjectCard({ project, active }) {
               src={project.image}
               alt={project.title || "Project Image"}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1116] via-transparent to-transparent opacity-70" />
             <div
-              className="absolute left-0 right-0 top-0 h-[3px]"
+              className="absolute left-0 right-0 top-0 h-[3px] origin-left scale-x-100 transition-transform duration-500 group-hover:scale-x-0"
               style={{ background: project.accentBar }}
             />
+            {/* hover CTA */}
+            <div className="absolute inset-0 flex items-end justify-end p-5 opacity-0 transition-all duration-500 ease-out group-hover:opacity-100">
+              <span className="flex h-11 w-11 translate-y-3 items-center justify-center rounded-full border border-[rgba(0,217,163,0.5)] bg-black/60 text-[var(--accent)] backdrop-blur-md transition-transform duration-500 ease-out group-hover:translate-y-0">
+                <ArrowUpRight size={18} />
+              </span>
+            </div>
           </div>
 
           {/* BODY */}
@@ -102,24 +110,12 @@ export default function Projects() {
   return (
     <section id="projects" className="py-28">
       <div className="container mx-auto px-6">
-        <div className="mb-20 text-center">
-          <Reveal>
-            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
-              My Work
-            </span>
-          </Reveal>
-          <Reveal variant="blur" delay={0.05}>
-            <h2 className="mb-4 mt-3 text-4xl font-extrabold">
-              Featured <span className="text-gradient">Projects</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mx-auto max-w-xl text-[var(--muted)]">
-              A selection of real-world applications built with modern stacks,
-              focusing on performance, scalability, and great UX.
-            </p>
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="My Work"
+          title="Featured"
+          accent="Projects"
+          description="A selection of real-world applications built with modern stacks, focusing on performance, scalability, and great UX."
+        />
 
         {/* FILTERS */}
         <Reveal delay={0.1}>

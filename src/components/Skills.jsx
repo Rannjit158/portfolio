@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { skillCategories } from "../data/portfolioData";
 import { Stagger, StaggerItem } from "./animations/Stagger";
-import Reveal from "./animations/Reveal";
+import SectionHeading from "./ui/SectionHeading";
 import AnimatedCard from "./ui/AnimatedCard";
+import CountUp from "./ui/CountUp";
 
 function SkillCard({ cat }) {
   const ref = useRef(null);
@@ -33,6 +34,9 @@ function SkillCard({ cat }) {
           {/* Top gradient bar */}
           <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
+          {/* cursor spotlight */}
+          <div className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100 cv-card-glow" aria-hidden="true" />
+
           {/* Icon */}
           <motion.div
             className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(0,217,163,0.2)] bg-[rgba(0,217,163,0.1)] text-xl text-[var(--accent)]"
@@ -46,12 +50,18 @@ function SkillCard({ cat }) {
 
           {cat.type === "bars" ? (
             <div className="flex flex-col gap-4">
-              {cat.items.map((item) => (
+              {cat.items.map((item, i) => (
                 <div key={item.name}>
                   <div className="mb-1 flex justify-between">
                     <span className="text-sm font-medium">{item.name}</span>
                     <span className="font-mono text-xs text-[var(--accent)]">
-                      {item.pct}%
+                      <CountUp
+                        to={item.pct}
+                        suffix="%"
+                        start={visible}
+                        delay={i * 0.12}
+                        duration={1.3}
+                      />
                     </span>
                   </div>
                   <div className="h-1 overflow-hidden rounded-full bg-white/10">
@@ -59,8 +69,10 @@ function SkillCard({ cat }) {
                       className="h-full rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)]"
                       initial={{ width: 0 }}
                       animate={{ width: visible ? `${item.pct}%` : "0%" }}
-                      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                    />
+                      transition={{ duration: 1.2, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <span className="block h-full w-full bg-white/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    </motion.div>
                   </div>
                 </div>
               ))}
@@ -86,24 +98,12 @@ export default function Skills() {
   return (
     <section id="skills" className="py-28 bg-[var(--bg2)]">
       <div className="container mx-auto px-6">
-        <div className="mb-20 text-center">
-          <Reveal>
-            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
-              My Toolkit
-            </span>
-          </Reveal>
-          <Reveal variant="blur" delay={0.05}>
-            <h2 className="mb-4 mt-3 text-4xl font-extrabold">
-              Skills <span className="text-gradient">&</span> Technologies
-            </h2>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mx-auto max-w-xl text-[var(--muted)]">
-              A curated set of tools and technologies I use to build world-class
-              applications from concept to deployment.
-            </p>
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="My Toolkit"
+          title="Skills"
+          accent="& Technologies"
+          description="A curated set of tools and technologies I use to build world-class applications from concept to deployment."
+        />
 
         <Stagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.08}>
           {skillCategories.map((cat) => (

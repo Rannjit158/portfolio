@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { workHistory, education } from "../data/portfolioData";
 import Reveal from "./animations/Reveal";
 import { Stagger, StaggerItem } from "./animations/Stagger";
+import SectionHeading from "./ui/SectionHeading";
+import CvButton from "./ui/CvButton";
 import AnimatedCard from "./ui/AnimatedCard";
 
 function TimelineItem({ item }) {
@@ -72,18 +74,12 @@ export default function Experience() {
   return (
     <section id="experience" className="py-28 bg-[var(--bg2)]">
       <div className="container mx-auto px-6">
-        <div className="mb-20 text-center">
-          <Reveal>
-            <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
-              Career
-            </span>
-          </Reveal>
-          <Reveal variant="blur" delay={0.05}>
-            <h2 className="mt-3 text-4xl font-extrabold">
-              Work <span className="text-gradient">Experience</span>
-            </h2>
-          </Reveal>
-        </div>
+        <SectionHeading
+          eyebrow="Career"
+          title="Work"
+          accent="Experience"
+          description="Where I have shipped code, and what I keep learning along the way."
+        />
 
         <div className="grid items-start gap-16 md:grid-cols-2">
           <div>
@@ -104,6 +100,16 @@ export default function Experience() {
             <Timeline items={education} />
           </div>
         </div>
+
+        <Reveal delay={0.1}>
+          <div className="mt-6 flex flex-col items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-6 py-8 text-center">
+            <p className="max-w-md text-[var(--muted)]">
+              Want the full timeline, projects and skills in one document? The CV
+              has everything — and it prints straight to PDF.
+            </p>
+            <CvButton variant="primary" mode="preview" label="Open My CV" />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
